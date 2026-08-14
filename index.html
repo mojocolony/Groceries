@@ -5,18 +5,30 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#f7f5f0">
 <title>Groceries</title>
+<link rel="icon" type="image/svg+xml" href="app-icon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="app-icon-180.png">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="app">
   <header>
-    <div><h1>Groceries</h1><div class="sub" id="subtitle">One list, arranged the way you shop.</div></div>
+    <h1>Groceries</h1>
     <div class="headerRight">
+      <label class="fontPicker" aria-label="Text size">
+        <span>Aa</span>
+        <select id="fontSize" aria-label="Text size">
+          <option value="0.92">Small</option>
+          <option value="1" selected>Medium</option>
+          <option value="1.12">Large</option>
+        </select>
+      </label>
       <div class="count" id="count">0 items</div>
       <button class="statusBtn" id="familyBtn"><span class="statusDot" id="statusDot"></span><span id="statusText">Demo</span></button>
     </div>
   </header>
+
   <div id="setupNotice"></div>
+
   <div class="composer">
     <div class="inputwrap">
       <input id="itemInput" class="itemInput" autocomplete="off" placeholder="Add an item…" aria-label="Add grocery item">
@@ -26,11 +38,14 @@
     <div class="quick" id="quick"></div>
     <div class="hint">Start typing, choose a suggestion, or press Return to add exactly what you typed.</div>
   </div>
+
   <main id="list"></main>
-  <div class="footer" id="footer">Groceries</div>
 </div>
+
 <div id="modalRoot"></div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
 <script src="config.js"></script>
 <script src="grocery-catalog.js"></script>
 <script src="app.js"></script>
