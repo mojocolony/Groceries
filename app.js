@@ -13,6 +13,7 @@ function validCatalogName(name){return !BAD_CATALOG_NAMES.has(String(name||"").t
 let sb=null, household=null, user=null, items=[], customCatalog=[], recent=[], channel=null;
 let activeSuggestion=-1, demo=!cloudReady;
 let sortables=[];
+let boughtOpen=false;
 
 const $=id=>document.getElementById(id);
 const itemInput=$("itemInput"), suggestions=$("suggestions"), list=$("list"), quick=$("quick");
@@ -20,6 +21,8 @@ const count=$("count"), statusText=$("statusText"), statusDot=$("statusDot"), se
 const fontSize=$("fontSize");
 
 const STAR_SVG=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.12 2.12 0 0 0 1.595 1.16l5.164.75a.53.53 0 0 1 .294.904l-3.737 3.643a2.12 2.12 0 0 0-.609 1.875l.882 5.143a.53.53 0 0 1-.769.559l-4.618-2.428a2.12 2.12 0 0 0-1.974 0l-4.618 2.428a.53.53 0 0 1-.77-.56l.883-5.142a2.12 2.12 0 0 0-.61-1.875L2.162 9.788a.53.53 0 0 1 .294-.906l5.165-.75a2.12 2.12 0 0 0 1.594-1.158z"/></svg>`;
+const CHEVRON_SVG=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>`;
+const TRASH_SVG=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><path d="M19 6l-1 14c-.1 1-1 2-2 2H8c-1 0-1.9-1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>`;
 const BASKET_SVG=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 11-1 9"/><path d="m19 11-4-7"/><path d="M2 11h20"/><path d="m3.5 11 1.6 7.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6l1.7-7.4"/><path d="M4.5 15.5h15"/><path d="m5 11 4-7"/><path d="m9 11 1 9"/></svg>`;
 
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
@@ -401,12 +404,16 @@ function render(){
 
   const bought=items.filter(x=>x.bought).sort((a,b)=>new Date(b.bought_at||0)-new Date(a.bought_at||0));
   if(bought.length){
-    html+=`<section class="boughtWrap">
-      <div class="boughtHeader">
-        <div class="section-title boughtTitle" style="margin:0"><span>Recently bought</span><span class="boughtCount">${bought.length}</span></div>
-        <button class="linkBtn" id="clearBought">Clear</button>
+    html+=`<section class="boughtWrap ${boughtOpen?"open":""}">
+      <div class="boughtArchiveBar">
+        <button class="boughtToggle" id="boughtToggle" aria-expanded="${boughtOpen?"true":"false"}">
+          <span class="archiveChevron">${CHEVRON_SVG}</span>
+          <span>Recently bought</span>
+          <span class="boughtCount">${bought.length}</span>
+        </button>
+        ${boughtOpen?`<button class="linkBtn clearAllBtn" id="clearBought">Clear all</button>`:""}
       </div>
-      <div class="card bought">${bought.map(rowHtml).join("")}</div>
+      ${boughtOpen?`<div class="card bought">${bought.map(boughtRowHtml).join("")}</div>`:""}
     </section>`;
   }
 
@@ -416,9 +423,21 @@ function render(){
   document.querySelectorAll(".starBtn").forEach(b=>b.onclick=()=>toggleStar(b.dataset.id));
   document.querySelectorAll(".menuBtn").forEach(b=>b.onclick=()=>{const a=$("actions-"+b.dataset.id);if(a)a.classList.toggle("open")});
   document.querySelectorAll(".deleteBtn").forEach(b=>b.onclick=()=>deleteItem(b.dataset.id));
+  document.querySelectorAll(".boughtDeleteBtn").forEach(b=>b.onclick=()=>deleteItem(b.dataset.id));
   document.querySelectorAll("select[data-id]").forEach(s=>s.onchange=()=>changeSection(s.dataset.id,s.value));
+  if($("boughtToggle"))$("boughtToggle").onclick=()=>{boughtOpen=!boughtOpen;render()};
   if($("clearBought"))$("clearBought").onclick=clearBought;
   setupSortables();
+}
+function boughtRowHtml(x){
+  return `<div class="boughtRow" data-id="${attr(x.id)}">
+    <button class="check boughtRestore" data-id="${attr(x.id)}" aria-label="Restore ${attr(x.name)} to list"></button>
+    <div class="boughtItemText">
+      <div class="itemname">${esc(x.name)}</div>
+      <div class="meta">Tap the checkmark to restore</div>
+    </div>
+    <button class="boughtDeleteBtn" data-id="${attr(x.id)}" aria-label="Delete ${attr(x.name)} permanently">${TRASH_SVG}</button>
+  </div>`;
 }
 function rowHtml(x){
   const opts=SECTION_ORDER.map(s=>`<option ${s===x.section?"selected":""}>${esc(s)}</option>`).join("");
