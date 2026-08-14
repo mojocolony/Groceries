@@ -251,6 +251,40 @@ async function toggleStar(id){
   const {error}=await sb.from("grocery_items").update({starred:x.starred}).eq("id",id);
   if(error){x.starred=old;render();flash(error.message)}
 }
+
+async function editItem(id){
+  const x=items.find(i=>String(i.id)===String(id));if(!x)return;
+  const next=prompt("Edit item",x.name);
+  if(next===null)return;
+  const name=String(next).trim().replace(/\s+/g," ");
+  if(!name || name===x.name)return;
+
+  const oldName=x.name;
+  x.name=name;
+  render();
+
+  if(demo){
+    let learned=customCatalog.find(z=>z.name.toLowerCase()===oldName.toLowerCase());
+    if(learned){learned.name=name;learned.section=x.section}
+    else customCatalog.unshift({name,section:x.section,usage_count:1,last_used_at:new Date().toISOString()});
+    demoSave();return;
+  }
+
+  const {error}=await sb.from("grocery_items").update({name}).eq("id",id);
+  if(error){
+    x.name=oldName;render();flash(error.message);return;
+  }
+
+  const {error:learnError}=await sb.rpc("set_catalog_section",{
+    p_household_id:household.id,p_name:name,p_section:x.section
+  });
+  if(learnError) flash(learnError.message);
+
+  let learned=customCatalog.find(z=>z.name.toLowerCase()===oldName.toLowerCase());
+  if(learned){learned.name=name;learned.section=x.section}
+  else customCatalog.unshift({name,section:x.section,usage_count:1,last_used_at:new Date().toISOString()});
+}
+
 async function deleteItem(id){
   const old=[...items];items=items.filter(i=>String(i.id)!==String(id));render();
   if(demo){demoSave();return}
@@ -422,7 +456,9 @@ function render(){
   document.querySelectorAll(".check").forEach(b=>b.onclick=()=>toggleBought(b.dataset.id));
   document.querySelectorAll(".starBtn").forEach(b=>b.onclick=()=>toggleStar(b.dataset.id));
   document.querySelectorAll(".menuBtn").forEach(b=>b.onclick=()=>{const a=$("actions-"+b.dataset.id);if(a)a.classList.toggle("open")});
+  document.querySelectorAll(".editBtn").forEach(b=>b.onclick=()=>editItem(b.dataset.id));
   document.querySelectorAll(".deleteBtn").forEach(b=>b.onclick=()=>deleteItem(b.dataset.id));
+  document.querySelectorAll(".boughtEditBtn").forEach(b=>b.onclick=()=>editItem(b.dataset.id));
   document.querySelectorAll(".boughtDeleteBtn").forEach(b=>b.onclick=()=>deleteItem(b.dataset.id));
   document.querySelectorAll("select[data-id]").forEach(s=>s.onchange=()=>changeSection(s.dataset.id,s.value));
   if($("boughtToggle"))$("boughtToggle").onclick=()=>{boughtOpen=!boughtOpen;render()};
@@ -436,7 +472,10 @@ function boughtRowHtml(x){
       <div class="itemname">${esc(x.name)}</div>
       <div class="meta">Tap the checkmark to restore</div>
     </div>
-    <button class="boughtDeleteBtn" data-id="${attr(x.id)}" aria-label="Delete ${attr(x.name)} permanently">${TRASH_SVG}</button>
+    <div class="boughtRowActions">
+      <button class="boughtEditBtn" data-id="${attr(x.id)}" aria-label="Edit ${attr(x.name)}">Edit</button>
+      <button class="boughtDeleteBtn" data-id="${attr(x.id)}" aria-label="Delete ${attr(x.name)} permanently">${TRASH_SVG}</button>
+    </div>
   </div>`;
 }
 function rowHtml(x){
@@ -447,7 +486,7 @@ function rowHtml(x){
     <div><div class="itemname">${esc(x.name)}</div>${x.section==="Other"?`<div class="meta">Unsorted — choose a section once and I’ll remember it</div>`:""}</div>
     ${activeStar}
     <button class="menuBtn" data-id="${attr(x.id)}" aria-label="Item options">•••</button>
-    <div class="actions" id="actions-${attr(x.id)}"><select data-id="${attr(x.id)}" aria-label="Move ${attr(x.name)} to section">${opts}</select><button class="deleteBtn" data-id="${attr(x.id)}">Delete</button></div>
+    <div class="actions" id="actions-${attr(x.id)}"><select data-id="${attr(x.id)}" aria-label="Move ${attr(x.name)} to section">${opts}</select><button class="editBtn" data-id="${attr(x.id)}">Edit</button><button class="deleteBtn" data-id="${attr(x.id)}">Delete</button></div>
   </div>`;
 }
 function renderQuick(){

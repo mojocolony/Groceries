@@ -111,3 +111,11 @@ h1{font-size:calc(34px * var(--font-scale));line-height:1;margin:0;letter-spacin
 .row.drop-after::after{bottom:-2px}
 
 .appVersion{text-align:center;color:#aaa;font-size:11px;margin-top:34px;letter-spacing:.02em}
+
+
+/* v1.3.1 item editing */
+.editBtn,.boughtEditBtn{
+  border:0;background:transparent;color:var(--accent);font:inherit;cursor:pointer;
+}
+.boughtRowActions{display:flex;align-items:center;gap:2px}
+.boughtEditBtn{font-size:calc(12px * var(--font-scale));padding:8px}
