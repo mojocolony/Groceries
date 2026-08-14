@@ -254,21 +254,32 @@ async function deleteItem(id){
 async function changeSection(id,section){
   const x=items.find(i=>String(i.id)===String(id));if(!x)return;
   const oldSection=x.section;
+  const oldOrder=x.sort_order;
   x.section=section;
   x.sort_order=nextSortOrder(section);
 
-  // Update the in-memory household catalogue immediately so the correction
-  // is remembered even before the next reload.
   let learned=customCatalog.find(z=>z.name.toLowerCase()===x.name.toLowerCase());
-  if(learned) learned.section=section;
+  if(learned){learned.section=section;learned.last_used_at=new Date().toISOString()}
   else customCatalog.unshift({name:x.name,section,usage_count:1,last_used_at:new Date().toISOString()});
   render();
 
   if(demo){demoSave();return}
-  const {error}=await sb.from("grocery_items").update({section,sort_order:x.sort_order}).eq("id",id);
-  if(error){x.section=oldSection;render();flash(error.message);return}
-  const {error:rpcError}=await sb.rpc("set_catalog_section",{p_household_id:household.id,p_name:x.name,p_section:section});
-  if(rpcError) flash(rpcError.message);
+
+  // Save household learning FIRST. The grocery-item update triggers realtime;
+  // doing the catalogue write first ensures the ensuing reload sees the new section.
+  const {error:rpcError}=await sb.rpc("set_catalog_section",{
+    p_household_id:household.id,p_name:x.name,p_section:section
+  });
+  if(rpcError){
+    x.section=oldSection;x.sort_order=oldOrder;render();flash(rpcError.message);return;
+  }
+
+  const {error}=await sb.from("grocery_items").update({
+    section,sort_order:x.sort_order
+  }).eq("id",id);
+  if(error){
+    x.section=oldSection;x.sort_order=oldOrder;render();flash(error.message);
+  }
 }
 async function clearBought(){
   const removed=items.filter(x=>x.bought);
@@ -284,30 +295,56 @@ async function persistOrder(section){
   const card=document.querySelector(`.card[data-section="${CSS.escape(section)}"]`);
   if(!card)return;
   const ids=[...card.querySelectorAll(".row[data-id]")].map(el=>el.dataset.id);
-  const updates=[];
-  ids.forEach((id,index)=>{
-    const x=items.find(i=>String(i.id)===String(id));
-    if(!x)return;
+
+  if(demo){
+    ids.forEach((id,index)=>{
+      const x=items.find(i=>String(i.id)===String(id));if(!x)return;
+      x.sort_order=(index+1)*1000;
+      if(x.section!==section){
+        x.section=section;
+        let learned=customCatalog.find(z=>z.name.toLowerCase()===x.name.toLowerCase());
+        if(learned) learned.section=section;
+        else customCatalog.unshift({name:x.name,section,usage_count:1,last_used_at:new Date().toISOString()});
+      }
+    });
+    demoSave();render();return;
+  }
+
+  for(let index=0;index<ids.length;index++){
+    const id=ids[index];
+    const x=items.find(i=>String(i.id)===String(id));if(!x)continue;
     const order=(index+1)*1000;
-    x.sort_order=order;
+
     if(x.section!==section){
+      // Persist the household correction before the grocery row, so realtime
+      // reloads cannot race ahead of the learned category.
+      const {error:learnError}=await sb.rpc("set_catalog_section",{
+        p_household_id:household.id,p_name:x.name,p_section:section
+      });
+      if(learnError){flash(learnError.message);continue}
       x.section=section;
       let learned=customCatalog.find(z=>z.name.toLowerCase()===x.name.toLowerCase());
       if(learned) learned.section=section;
       else customCatalog.unshift({name:x.name,section,usage_count:1,last_used_at:new Date().toISOString()});
-      if(!demo) updates.push(sb.rpc("set_catalog_section",{p_household_id:household.id,p_name:x.name,p_section:section}));
     }
-    if(!demo) updates.push(sb.from("grocery_items").update({section,sort_order:order}).eq("id",id));
-  });
-  if(demo){demoSave();render();return}
-  await Promise.all(updates);
+
+    x.sort_order=order;
+    const {error}=await sb.from("grocery_items").update({
+      section:x.section,sort_order:order
+    }).eq("id",id);
+    if(error) flash(error.message);
+  }
   render();
+}
+function clearDropIndicators(){
+  document.querySelectorAll(".drop-before,.drop-after").forEach(el=>{
+    el.classList.remove("drop-before","drop-after");
+  });
 }
 function setupSortables(){
   sortables.forEach(s=>s.destroy());sortables=[];
   if(typeof Sortable==="undefined")return;
   document.querySelectorAll(".card[data-section]").forEach(card=>{
-    const section=card.dataset.section;
     sortables.push(new Sortable(card,{
       group:"groceries",
       animation:150,
@@ -319,12 +356,22 @@ function setupSortables(){
       preventOnFilter:false,
       ghostClass:"sortable-ghost",
       chosenClass:"sortable-chosen",
+      onMove:evt=>{
+        clearDropIndicators();
+        const target=evt.related;
+        if(target && target.classList && target.classList.contains("row")){
+          target.classList.add(evt.willInsertAfter?"drop-after":"drop-before");
+        }
+        return true;
+      },
       onEnd:async evt=>{
+        clearDropIndicators();
         const fromSection=evt.from.dataset.section;
         const toSection=evt.to.dataset.section;
         await persistOrder(toSection);
         if(fromSection!==toSection) await persistOrder(fromSection);
-      }
+      },
+      onUnchoose:clearDropIndicators
     }));
   });
 }

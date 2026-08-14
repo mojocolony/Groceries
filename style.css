@@ -34,7 +34,7 @@ h1{font-size:calc(34px * var(--font-scale));line-height:1;margin:0;letter-spacin
 .section-title{display:flex;align-items:center;justify-content:space-between;color:#4f504a;text-transform:uppercase;letter-spacing:.08em;font-weight:750;font-size:calc(12px * var(--font-scale));margin:0 5px 8px}
 .section-title span:last-child{font-weight:600;color:#9a9a91}
 .card{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 3px 16px rgba(38,35,29,.045)}
-.row{display:grid;grid-template-columns:30px 1fr auto auto;align-items:center;gap:7px;min-height:56px;padding:8px 8px 8px 12px;border-bottom:1px solid var(--line);touch-action:manipulation}
+.row{position:relative;display:grid;grid-template-columns:30px 1fr auto auto;align-items:center;gap:7px;min-height:56px;padding:8px 8px 8px 12px;border-bottom:1px solid var(--line);touch-action:manipulation}
 .row:last-child{border-bottom:0}
 .row.sortable-ghost{opacity:.35;background:var(--soft)}
 .row.sortable-chosen{box-shadow:0 8px 24px rgba(38,35,29,.10)}
@@ -90,3 +90,13 @@ h1{font-size:calc(34px * var(--font-scale));line-height:1;margin:0;letter-spacin
   .fontPicker select{max-width:70px}
 }
 @media(min-width:700px){.overlay{align-items:center}.sheet{padding:28px}}
+
+
+/* v1.2 drag placement indicator */
+.row.drop-before::before,.row.drop-after::after{
+  content:"";position:absolute;left:12px;right:12px;height:3px;
+  background:var(--blue);border-radius:999px;z-index:6;pointer-events:none;
+  box-shadow:0 0 0 1px rgba(255,255,255,.9)
+}
+.row.drop-before::before{top:-2px}
+.row.drop-after::after{bottom:-2px}
