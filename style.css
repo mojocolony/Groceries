@@ -137,3 +137,76 @@ h1{font-size:calc(34px * var(--font-scale));line-height:1;margin:0;letter-spacin
 .section-drop-after::after{bottom:-7px}
 .editBtn{display:flex!important;align-items:center;gap:7px}
 .editBtn svg{width:16px;height:16px;stroke-width:1.9}
+
+
+/* v1.4.1 compact text-size control */
+.fontPicker{display:none!important}
+.fontControl{position:relative;flex:0 0 auto}
+.fontSizeBtn{
+  width:46px;height:46px;border:0;border-radius:13px;
+  background:#eeeae3;color:#292a26;font-weight:800;
+  font-size:23px;line-height:1;letter-spacing:-.04em;
+  display:grid;place-items:center;cursor:pointer;
+}
+.fontSizeBtn:hover{background:#e8e3db}
+.fontSizeMenu{
+  position:absolute;right:0;top:53px;z-index:60;
+  width:150px;padding:6px;background:#fff;border:1px solid var(--line);
+  border-radius:14px;box-shadow:0 14px 34px rgba(38,35,29,.14);
+  display:none;
+}
+.fontSizeMenu.open{display:block}
+.fontChoice{
+  width:100%;border:0;background:transparent;color:var(--ink);
+  padding:10px 11px;border-radius:9px;text-align:left;cursor:pointer;
+  font-size:14px;
+}
+.fontChoice:hover{background:#f5f3ee}
+.fontChoice.active{background:var(--soft);color:var(--accent);font-weight:700}
+
+/* v1.4.1 compact inline editing */
+.row.editing{
+  grid-template-columns:30px 1fr;
+  align-items:start;
+  padding-top:10px;padding-bottom:10px;
+}
+.row.editing .check{margin-top:5px}
+.inlineEditor{min-width:0}
+.inlineEditInput{
+  width:100%;border:1px solid #b8c4b1;background:#fff;color:var(--ink);
+  border-radius:11px;padding:9px 11px;outline:none;
+  box-shadow:0 0 0 3px rgba(83,107,70,.08);
+}
+.inlineEditInput:focus{border-color:#8fa182}
+.inlineEditActions{
+  display:flex;justify-content:flex-end;gap:7px;margin-top:7px;
+}
+.inlineEditCancel,.inlineEditSave{
+  border-radius:9px;padding:7px 12px;cursor:pointer;
+  font-size:calc(12px * var(--font-scale));
+}
+.inlineEditCancel{
+  border:1px solid var(--line);background:#fff;color:var(--muted);
+}
+.inlineEditSave{
+  border:0;background:var(--accent);color:#fff;font-weight:700;
+}
+
+/* keep the item-options panel compact */
+.actions{
+  grid-template-columns:auto minmax(150px,1fr) auto;
+  align-items:center;
+  padding:4px 0 7px;
+}
+.editBtn{
+  padding:8px 9px;border-radius:9px;
+}
+.editBtn:hover{background:#f3f1ec}
+.deleteBtn{white-space:nowrap}
+
+@media(max-width:620px){
+  .fontSizeBtn{width:44px;height:44px;font-size:22px}
+  .fontSizeMenu{right:0}
+  .actions{grid-template-columns:1fr}
+  .actions select,.actions .editBtn,.actions .deleteBtn{width:100%}
+}
