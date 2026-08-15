@@ -119,3 +119,21 @@ h1{font-size:calc(34px * var(--font-scale));line-height:1;margin:0;letter-spacin
 }
 .boughtRowActions{display:flex;align-items:center;gap:2px}
 .boughtEditBtn{font-size:calc(12px * var(--font-scale));padding:8px}
+
+/* v1.4 */
+.fontIcon{width:18px;height:18px;display:grid;place-items:center;color:#77786f}
+.fontIcon svg{width:18px;height:18px;stroke-width:1.9}
+.section{position:relative}
+.section-title{cursor:grab;user-select:none}
+.section-title:active{cursor:grabbing}
+.sectionGrip{width:18px;height:18px;display:inline-grid;place-items:center;color:#a0a198;margin-right:3px}
+.sectionGrip svg{width:17px;height:17px;stroke-width:2}
+.sectionName{flex:1}
+.sectionCount{margin-left:auto}
+.section-ghost{opacity:.38}
+.section-chosen{z-index:4}
+.section-drop-before::before,.section-drop-after::after{content:"";position:absolute;left:8px;right:8px;height:3px;background:var(--blue);border-radius:999px;z-index:8;pointer-events:none;box-shadow:0 0 0 1px rgba(255,255,255,.9)}
+.section-drop-before::before{top:-7px}
+.section-drop-after::after{bottom:-7px}
+.editBtn{display:flex!important;align-items:center;gap:7px}
+.editBtn svg{width:16px;height:16px;stroke-width:1.9}

@@ -3,7 +3,7 @@ const DATA = window.GROCERY_DATA;
 const CONFIG = window.OUR_GROCERIES_CONFIG || {};
 const cloudReady = CONFIG.supabaseUrl && CONFIG.supabaseKey &&
   !CONFIG.supabaseUrl.includes("PASTE_") && !CONFIG.supabaseKey.includes("PASTE_");
-const SECTION_ORDER = DATA.sections;
+const SECTION_ORDER = [...DATA.sections];
 const KEY = "ourGroceriesV2Demo";
 const FONT_KEY = "groceriesFontScale";
 const BAD_CATALOG_NAMES = new Set(["air freshener candles matches lighters batteries aa batteries aaa batteries light bulbs filters water filters","almond milk beverage oat milk beverage soy beverage non alcoholic beer drink mix powdered drink mix","apples bananas avocados oranges mandarins clementines grapefruit lemons limes grapes strawberries blueberries","applesauce cups pudding cups yogurt tubes snack packs","artichokes okra jicama rutabaga horseradish fresh turmeric fresh herbs salad kit coleslaw mix guacamole","banana bread zucchini bread cornbread biscuits","bandages band aids gauze first aid tape pain reliever acetaminophen ibuprofen aspirin allergy medicine cold medicine","bell peppers red peppers green peppers yellow peppers orange peppers jalapenos hot peppers poblano peppers","body lotion sunscreen sunblock lip balm toothpaste toothbrush toothbrushes dental floss floss picks mouthwash","bok choy swiss chard collard greens broccoli broccolini cauliflower brussels sprouts asparagus green beans","bouillon cubes pasta sauce tomato sauce pizza sauce pesto salsa taco sauce taco seasoning chili powder cumin","bread white bread whole wheat bread whole grain bread multigrain bread rye bread sourdough bread french bread","broth canned broth tuna canned tuna salmon canned salmon sardines anchovies oysters canned oysters crab canned crab","brown rice basmati rice jasmine rice wild rice quinoa couscous barley bulgur farro lentils red lentils green lentils","butter lettuce spring mix mixed greens spinach baby spinach kale arugula cabbage red cabbage napa cabbage","cake mix brownie mix muffin mix cookie mix instant pudding jello gelatin mix tortillas taco shells tostadas","canned beans black beans kidney beans white beans navy beans cannellini beans baked beans refried beans chickpeas","canned green beans canned carrots canned mushrooms canned beets canned pumpkin canned potatoes canned mixed vegetables","canned pineapple canned fruit fruit cocktail applesauce pickles dill pickles bread and butter pickles relish olives","canned tomatoes diced tomatoes crushed tomatoes whole tomatoes tomato paste tomato sauce canned corn canned peas","cantaloupe honeydew pomegranate papaya coconut figs dates apricots rhubarb romaine lettuce iceberg lettuce","cashew milk cream heavy cream whipping cream half and half coffee cream table cream sour cream creme fraiche","chicken chicken breasts chicken thighs chicken drumsticks chicken wings whole chicken ground chicken chicken cutlets","chicken tenders turkey whole turkey turkey breast ground turkey turkey burgers beef ground beef lean ground beef","chips potato chips tortilla chips corn chips nacho chips pretzels crackers saltines ritz crackers wheat crackers","chocolate spread ketchup mustard dijon mustard yellow mustard mayonnaise mayo miracle whip relish hot sauce","coconut milk canned coconut milk evaporated milk condensed milk sweetened condensed milk canned peaches canned pears","coconut oil sesame oil vinegar white vinegar apple cider vinegar balsamic vinegar red wine vinegar rice vinegar","coffee cake pound cake cupcakes cake cookies bakery cookies pie apple pie pumpkin pie tarts brownies","coffee filters vacuum bags mop refills swiffer refills broom dustpan rubber gloves cleaning gloves garbage bin liners","coffee ground coffee coffee beans instant coffee decaf coffee espresso tea black tea green tea herbal tea chai tea","coke pepsi ginger ale root beer lemon lime soda iced tea lemonade orange juice apple juice cranberry juice","comb hairbrush brush hair ties elastics bobby pins nail polish nail polish remover nail clippers hand sanitizer","cookies chocolate chip cookies oatmeal cookies oreos sandwich cookies wafers graham crackers digestive cookies","corn tortillas wraps flatbread pizza crust pizza dough garlic bread breadsticks croutons breadcrumbs","cottage cheese blue cheese monterey jack cheese pepper jack cheese cheese strings cheese slices shredded cheese","cough drops cough syrup antacid vitamins contact solution","dark chocolate chips white chocolate chips cocoa powder coconut shredded coconut raisins dried cranberries","deli turkey turkey slices smoked turkey deli chicken chicken slices ham black forest ham honey ham prosciutto","deodorant antiperspirant razors razor blades shaving cream shaving gel aftershave cotton swabs q tips cotton balls","dish soap dishwasher tablets dishwasher pods dishwasher detergent rinse aid sponges scrubbers steel wool","dried apricots dried fruit dates prunes nuts almonds walnuts pecans cashews peanuts pistachios sunflower seeds","dried beans chickpeas dried chickpeas black beans dried black beans kidney beans dried kidney beans split peas","eggs large eggs extra large eggs brown eggs free range eggs egg whites butter salted butter unsalted butter","energy bars fruit bars fruit snacks gummies gummy bears candy chocolate chocolate bars dark chocolate milk chocolate","extra lean ground beef steak sirloin steak striploin steak ribeye steak tenderloin steak flank steak skirt steak","french fries frozen fries sweet potato fries tater tots hash browns potato wedges onion rings frozen appetizers","frozen bacon frozen seafood frozen salmon frozen vegetables steamers","frozen bagels frozen muffins frozen croissants frozen waffles frozen breakfast sandwiches frozen sausage","frozen berries frozen strawberries frozen blueberries frozen raspberries frozen mixed berries frozen fruit frozen mango","frozen burgers frozen chicken burgers chicken nuggets chicken strips chicken fingers frozen chicken wings","frozen cauliflower frozen spinach frozen green beans frozen mixed vegetables frozen stir fry vegetables edamame","frozen fish fish sticks frozen shrimp ice cream vanilla ice cream chocolate ice cream strawberry ice cream gelato","frozen peaches frozen pineapple frozen cherries frozen vegetables frozen peas frozen corn frozen broccoli","frozen pizza pizza pockets frozen burritos frozen dinners frozen meals frozen lasagna frozen pasta frozen mac and cheese","garlic ginger potatoes russet potatoes red potatoes yellow potatoes yukon gold potatoes sweet potatoes yams","gatorade energy drinks red bull coffee drinks iced coffee cold brew tea drinks kombucha milk drinks chocolate milk","glass cleaner window cleaner floor cleaner wood cleaner oven cleaner stainless steel cleaner laundry detergent","gluten free bread bagels plain bagels everything bagels sesame bagels cinnamon raisin bagels english muffins","grapefruit juice pineapple juice tomato juice vegetable juice grape juice juice boxes coconut water sports drinks","gravy gravy mix broth chicken broth beef broth vegetable broth stock chicken stock beef stock vegetable stock","green olives black olives kalamata olives capers artichoke hearts roasted red peppers jalapenos jarred jalapenos","hamburger buns hot dog buns brioche buns sandwich buns sub buns pita pita bread naan tortillas flour tortillas","honey molasses agave salt sea salt kosher salt pepper black pepper olive oil vegetable oil canola oil avocado oil","hot chocolate cocoa cereal oatmeal oats rolled oats quick oats granola muesli flour all purpose flour bread flour","italian bread ciabatta baguette focaccia pumpernickel bread challah brioche raisin bread cinnamon raisin bread","kitchen cleaner all purpose cleaner disinfectant cleaner disinfecting wipes bleach bathroom cleaner toilet cleaner","laundry pods fabric softener dryer sheets stain remover oxygen bleach hand soap liquid hand soap bar soap","leg of lamb ground lamb salmon salmon fillets trout cod haddock halibut tilapia sole tuna steaks swordfish","lentils canned lentils canned soup tomato soup chicken noodle soup mushroom soup cream of mushroom soup vegetable soup","mac and cheese prepared meals ready meals olives antipasto pickles deli pickles feta olives marinated vegetables","macaroni salad pasta salad coleslaw caesar salad greek salad garden salad tabbouleh hummus tzatziki babaganoush","margarine cheddar cheese old cheddar mild cheddar marble cheese mozzarella cheese parmesan cheese parmigiano reggiano","milk skim milk 1% milk 2% milk whole milk chocolate milk lactose free milk oat milk almond milk soy milk coconut milk","mozzarella sticks spring rolls egg rolls samosas perogies pierogies dumplings potstickers frozen meatballs","muffins blueberry muffins bran muffins chocolate chip muffins corn muffins croissants rolls dinner rolls buns","mushrooms white mushrooms cremini mushrooms portobello mushrooms cilantro parsley basil mint dill rosemary","oregano dried oregano basil dried basil thyme rosemary parsley bay leaves chili flakes red pepper flakes","oyster sauce hoisin sauce tahini salad dressing ranch dressing caesar dressing italian dressing balsamic dressing","panko breadcrumbs hamburger rolls hot dog rolls kaiser rolls pretzel buns donuts doughnuts danishes scones","paper towels toilet paper tissues facial tissue napkins paper plates paper bowls plastic cups disposable cups","paprika smoked paprika garlic powder onion powder cinnamon nutmeg cloves ginger powder curry powder turmeric","pasta sauce marinara sauce alfredo sauce pesto salsa queso sauerkraut kimchi gravy jarred gravy","pasta spaghetti linguine fettuccine penne rigatoni macaroni lasagna noodles egg noodles ramen noodles rice white rice","peanut butter natural peanut butter almond butter cashew butter jam strawberry jam raspberry jam marmalade nutella","plastic cutlery aluminum foil tin foil parchment paper wax paper plastic wrap cling wrap freezer bags sandwich bags","popcorn kernels microwave popcorn nutritional yeast protein pasta noodles","pork pork chops pork tenderloin pork loin pork roast ground pork pork ribs back ribs side ribs bacon breakfast sausage","prepared sandwiches wraps sushi pizza prepared pizza soup prepared soup quiche meat pie lasagna prepared lasagna","pumpkin seeds chia seeds flax seeds sesame seeds crackers breadcrumbs panko stuffing mix pancake mix waffle mix","raspberries blackberries cranberries cherries peaches nectarines plums pears mangoes pineapple kiwi watermelon","refrigerated dough crescent rolls refrigerated cookie dough","rice crackers rice cakes popcorn microwave popcorn cheese puffs cheesies granola bars cereal bars protein bars","roma tomatoes beefsteak tomatoes onions yellow onions red onions white onions green onions scallions shallots","salami genoa salami pepperoni mortadella roast beef pastrami corned beef bologna deli cheese sliced cheese","salsa fresh salsa pico de gallo guacamole rotisserie chicken fried chicken chicken wings chicken tenders","sausages italian sausage mild italian sausage hot italian sausage bratwurst kielbasa chorizo lamb lamb chops","sea bass shrimp prawns scallops mussels clams oysters crab lobster calamari squid smoked salmon fish fillets","shampoo conditioner body wash soap bar soap hand soap face wash facial cleanser moisturizer face moisturizer","shortbread brownies mini muffins snack cakes donuts trail mix nuts mixed nuts peanuts almonds cashews pistachios","snap peas snow peas peas corn corn on the cob carrots baby carrots celery cucumber english cucumber zucchini","sorbet frozen yogurt popsicles ice pops ice cream sandwiches frozen pie frozen cake frozen bread frozen garlic bread","sriracha barbecue sauce bbq sauce steak sauce worcestershire sauce soy sauce tamari teriyaki sauce fish sauce","stewing beef beef roast pot roast roast beef brisket short ribs beef ribs hamburger patties burgers veal veal chops","sunflower seeds pumpkin seeds dried fruit raisins dried cranberries beef jerky jerky pepperettes cheese snacks","swiss cheese havarti cheese gouda cheese brie cheese camembert feta cheese goat cheese cream cheese ricotta cheese","swiss cheese slices cheddar slices provolone slices havarti slices mozzarella slices prepared salad potato salad","thyme sage chives oregano bean sprouts alfalfa sprouts radishes beets turnips parsnips leeks fennel eggplant","tissues tampons pads sanitary pads panty liners hair gel hair spray hairspray mousse hair dye dry shampoo","toothpicks skewers straws foil pans disposable pans","vanilla vanilla extract baking powder baking soda yeast cornstarch corn starch gelatin chocolate chips","waffles frozen waffles belgian waffles toaster waffles pancakes frozen pancakes french toast frozen french toast","water bottled water spring water distilled water sparkling water soda water club soda tonic water pop soda cola","white fish seafood mix anchovies fresh fish","whole wheat flour almond flour cornmeal sugar white sugar brown sugar icing sugar powdered sugar maple syrup syrup","yellow squash butternut squash acorn squash spaghetti squash pumpkin tomatoes cherry tomatoes grape tomatoes","yogurt greek yogurt plain yogurt vanilla yogurt fruit yogurt skyr kefir pudding whipped cream buttermilk","zipper bags storage bags garbage bags trash bags compost bags recycling bags food containers storage containers"]);
@@ -13,6 +13,7 @@ function validCatalogName(name){return !BAD_CATALOG_NAMES.has(String(name||"").t
 let sb=null, household=null, user=null, items=[], customCatalog=[], recent=[], channel=null;
 let activeSuggestion=-1, demo=!cloudReady;
 let sortables=[];
+let sectionSortable=null;
 let boughtOpen=false;
 
 const $=id=>document.getElementById(id);
@@ -23,6 +24,8 @@ const fontSize=$("fontSize");
 const STAR_SVG=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.12 2.12 0 0 0 1.595 1.16l5.164.75a.53.53 0 0 1 .294.904l-3.737 3.643a2.12 2.12 0 0 0-.609 1.875l.882 5.143a.53.53 0 0 1-.769.559l-4.618-2.428a2.12 2.12 0 0 0-1.974 0l-4.618 2.428a.53.53 0 0 1-.77-.56l.883-5.142a2.12 2.12 0 0 0-.61-1.875L2.162 9.788a.53.53 0 0 1 .294-.906l5.165-.75a2.12 2.12 0 0 0 1.594-1.158z"/></svg>`;
 const CHEVRON_SVG=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>`;
 const TRASH_SVG=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><path d="M19 6l-1 14c-.1 1-1 2-2 2H8c-1 0-1.9-1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>`;
+const PENCIL_SVG=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>`;
+const GRIP_SVG=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>`;
 const BASKET_SVG=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 11-1 9"/><path d="m19 11-4-7"/><path d="M2 11h20"/><path d="m3.5 11 1.6 7.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6l1.7-7.4"/><path d="M4.5 15.5h15"/><path d="m5 11 4-7"/><path d="m9 11 1 9"/></svg>`;
 
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
@@ -83,12 +86,13 @@ function itemOrder(a,b){
 }
 
 function applyFontScale(value){
-  const v=String(value||"1");
+  const legacy={"0.92":"0.98","1":"1.08","1.12":"1.18"};
+  const v=legacy[String(value)]||String(value||"1.08");
   document.documentElement.style.setProperty("--font-scale",v);
   if(fontSize) fontSize.value=v;
   localStorage.setItem(FONT_KEY,v);
 }
-applyFontScale(localStorage.getItem(FONT_KEY)||"1");
+applyFontScale(localStorage.getItem(FONT_KEY)||"1.08");
 if(fontSize) fontSize.onchange=()=>applyFontScale(fontSize.value);
 
 function demoLoad(){
@@ -103,11 +107,25 @@ function demoLoad(){
     catalog:[],recent:["Milk","Bananas","Eggs","Coffee","Paper towels"]
   };
 }
-function demoSave(){localStorage.setItem(KEY,JSON.stringify({items,catalog:customCatalog,recent}))}
+function demoSave(){localStorage.setItem(KEY,JSON.stringify({items,catalog:customCatalog,recent,sectionOrder:[...SECTION_ORDER]}))}
+
+function applySectionOrder(order){
+  if(!Array.isArray(order)||!order.length)return;
+  const known=new Set(DATA.sections);
+  const cleaned=order.filter((x,i,a)=>known.has(x)&&a.indexOf(x)===i);
+  DATA.sections.forEach(x=>{if(!cleaned.includes(x))cleaned.push(x)});
+  SECTION_ORDER.splice(0,SECTION_ORDER.length,...cleaned);
+}
+async function saveSectionOrder(order){
+  applySectionOrder(order);
+  if(demo){demoSave();return}
+  const {error}=await sb.rpc("set_household_section_order",{p_household_id:household.id,p_section_order:[...SECTION_ORDER]});
+  if(error)flash(error.message);
+}
 
 async function init(){
   if(!cloudReady){
-    const d=demoLoad(); items=d.items||[]; customCatalog=d.catalog||[]; recent=d.recent||[];
+    const d=demoLoad(); items=d.items||[]; customCatalog=d.catalog||[]; recent=d.recent||[]; applySectionOrder(d.sectionOrder);
     setupNotice.innerHTML=`<div class="setupNotice"><strong>Demo mode.</strong> This version is ready for shared syncing, but Supabase has not been connected yet. Your list is currently saved only on this device.</div>`;
     render(); return;
   }
@@ -126,15 +144,16 @@ async function init(){
     await enterHousehold(memberships[0].household_id);
   }catch(e){
     setupNotice.innerHTML=`<div class="setupNotice"><strong>Cloud connection problem.</strong> ${esc(e.message||e)}</div>`;
-    const d=demoLoad();items=d.items||[];customCatalog=d.catalog||[];recent=d.recent||[];demo=true;render();
+    const d=demoLoad();items=d.items||[];customCatalog=d.catalog||[];recent=d.recent||[];applySectionOrder(d.sectionOrder);demo=true;render();
   }
 }
 
 async function enterHousehold(id){
   demo=false;
-  const {data:h,error:he}=await sb.from("households").select("id,name,invite_code").eq("id",id).single();
+  const {data:h,error:he}=await sb.from("households").select("id,name,invite_code,section_order").eq("id",id).single();
   if(he) throw he;
   household=h;
+  applySectionOrder(h.section_order);
   await reloadCloud();
   statusText.textContent="Shared";
   statusDot.classList.add("online");
@@ -158,6 +177,8 @@ function subscribe(){
   channel=sb.channel("groceries-"+household.id)
     .on("postgres_changes",{event:"*",schema:"public",table:"grocery_items",filter:`household_id=eq.${household.id}`},
       async()=>{await reloadCloud();render()})
+    .on("postgres_changes",{event:"UPDATE",schema:"public",table:"households",filter:`id=eq.${household.id}`},
+      payload=>{if(payload.new&&payload.new.section_order){household.section_order=payload.new.section_order;applySectionOrder(payload.new.section_order);render()}})
     .subscribe();
 }
 
@@ -414,6 +435,33 @@ function setupSortables(){
       onUnchoose:clearDropIndicators
     }));
   });
+
+  if(sectionSortable)sectionSortable.destroy();
+  const sectionHost=document.getElementById("activeSections");
+  if(sectionHost){
+    sectionSortable=new Sortable(sectionHost,{
+      animation:150,
+      draggable:".section",
+      handle:".section-title",
+      ghostClass:"section-ghost",
+      chosenClass:"section-chosen",
+      onMove:evt=>{
+        document.querySelectorAll(".section-drop-before,.section-drop-after").forEach(el=>el.classList.remove("section-drop-before","section-drop-after"));
+        const target=evt.related;
+        if(target&&target.classList&&target.classList.contains("section"))target.classList.add(evt.willInsertAfter?"section-drop-after":"section-drop-before");
+        return true;
+      },
+      onEnd:async()=>{
+        document.querySelectorAll(".section-drop-before,.section-drop-after").forEach(el=>el.classList.remove("section-drop-before","section-drop-after"));
+        const visible=[...sectionHost.querySelectorAll(".section[data-section]")].map(el=>el.dataset.section);
+        const visibleSet=new Set(visible);
+        let n=0;
+        const merged=SECTION_ORDER.map(s=>visibleSet.has(s)?visible[n++]:s);
+        await saveSectionOrder(merged);
+        render();
+      }
+    });
+  }
 }
 
 function render(){
@@ -427,14 +475,16 @@ function render(){
     html=`<div class="empty"><div class="emptyIcon">${BASKET_SVG}</div>Your list is empty.<br>Add something above.</div>`;
   }
 
+  let activeSectionsHtml="";
   for(const section of SECTION_ORDER){
     const arr=active.filter(x=>x.section===section).sort(itemOrder);
     if(!arr.length)continue;
-    html+=`<section class="section">
-      <div class="section-title"><span>${esc(section)}</span><span>${arr.length}</span></div>
+    activeSectionsHtml+=`<section class="section" data-section="${attr(section)}">
+      <div class="section-title" title="Drag to reorder sections"><span class="sectionGrip">${GRIP_SVG}</span><span class="sectionName">${esc(section)}</span><span class="sectionCount">${arr.length}</span></div>
       <div class="card" data-section="${attr(section)}">${arr.map(rowHtml).join("")}</div>
     </section>`;
   }
+  if(activeSectionsHtml)html+=`<div id="activeSections">${activeSectionsHtml}</div>`;
 
   const bought=items.filter(x=>x.bought).sort((a,b)=>new Date(b.bought_at||0)-new Date(a.bought_at||0));
   if(bought.length){
@@ -486,7 +536,7 @@ function rowHtml(x){
     <div><div class="itemname">${esc(x.name)}</div>${x.section==="Other"?`<div class="meta">Unsorted — choose a section once and I’ll remember it</div>`:""}</div>
     ${activeStar}
     <button class="menuBtn" data-id="${attr(x.id)}" aria-label="Item options">•••</button>
-    <div class="actions" id="actions-${attr(x.id)}"><select data-id="${attr(x.id)}" aria-label="Move ${attr(x.name)} to section">${opts}</select><button class="editBtn" data-id="${attr(x.id)}">Edit</button><button class="deleteBtn" data-id="${attr(x.id)}">Delete</button></div>
+    <div class="actions" id="actions-${attr(x.id)}"><button class="editBtn" data-id="${attr(x.id)}">${PENCIL_SVG}<span>Edit</span></button><select data-id="${attr(x.id)}" aria-label="Move ${attr(x.name)} to section">${opts}</select><button class="deleteBtn" data-id="${attr(x.id)}">Delete</button></div>
   </div>`;
 }
 function renderQuick(){

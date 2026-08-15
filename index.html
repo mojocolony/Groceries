@@ -7,7 +7,7 @@
 <title>Groceries</title>
 <link rel="icon" type="image/svg+xml" href="app-icon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="app-icon-180.png">
-<link rel="stylesheet" href="style.css?v=1.3.2">
+<link rel="stylesheet" href="style.css?v=1.4">
 </head>
 <body>
 <div class="app">
@@ -15,11 +15,13 @@
     <h1>Groceries</h1>
     <div class="headerRight">
       <label class="fontPicker" aria-label="Text size">
-        <span>Aa</span>
+        <span class="fontIcon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg></span>
         <select id="fontSize" aria-label="Text size">
-          <option value="0.92">Small</option>
-          <option value="1" selected>Medium</option>
-          <option value="1.12">Large</option>
+          <option value="0.98">Small</option>
+          <option value="1.08" selected>Medium</option>
+          <option value="1.18">Large</option>
+          <option value="1.30">XL</option>
+          <option value="1.44">XXL</option>
         </select>
       </label>
       <div class="count" id="count">0 items</div>
@@ -40,15 +42,15 @@
   </div>
 
   <main id="list"></main>
-  <div class="appVersion" aria-label="App version">v1.3.2</div>
+  <div class="appVersion" aria-label="App version">v1.4</div>
 </div>
 
 <div id="modalRoot"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
-<script src="config.js?v=1.3.2"></script>
-<script src="grocery-catalog.js?v=1.3.2"></script>
-<script src="app.js?v=1.3.2"></script>
+<script src="config.js?v=1.4"></script>
+<script src="grocery-catalog.js?v=1.4"></script>
+<script src="app.js?v=1.4"></script>
 </body>
 </html>
