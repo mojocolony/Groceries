@@ -23,6 +23,7 @@ function validSuggestionName(name){
 let sb=null, household=null, user=null, items=[], customCatalog=[], recent=[], channel=null;
 let activeSuggestion=-1, demo=!cloudReady;
 let sortables=[];
+let editingId=null;
 let sectionSortable=null;
 let boughtOpen=false;
 
@@ -577,7 +578,7 @@ function boughtRowHtml(x){
 function rowHtml(x){
   const opts=SECTION_ORDER.map(s=>`<option ${s===x.section?"selected":""}>${esc(s)}</option>`).join("");
   const activeStar=!x.bought?`<button class="starBtn ${x.starred?"active":""}" data-id="${attr(x.id)}" aria-label="${x.starred?"Unstar":"Star"} ${attr(x.name)}">${STAR_SVG}</button>`:"";
-  const editing=String(editingId)===String(x.id);
+  const editing=(typeof editingId!=="undefined")&&String(editingId)===String(x.id);
   const nameArea=editing
     ? `<div class="inlineEditor">
          <input class="inlineEditInput" data-id="${attr(x.id)}" value="${attr(x.name)}" aria-label="Edit grocery item">
