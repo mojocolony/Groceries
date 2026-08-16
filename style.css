@@ -210,3 +210,21 @@ h1{font-size:calc(34px * var(--font-scale));line-height:1;margin:0;letter-spacin
   .actions{grid-template-columns:1fr}
   .actions select,.actions .editBtn,.actions .deleteBtn{width:100%}
 }
+
+
+/* v1.4.8 household connection safety */
+.statusBtn:disabled{opacity:.66;cursor:default}
+.retryCloud{
+  margin-left:8px;border:1px solid currentColor;background:transparent;
+  color:inherit;border-radius:8px;padding:4px 8px;cursor:pointer;font:inherit
+}
+.householdChoices{display:grid;gap:8px;margin:14px 0}
+.householdChoice{
+  width:100%;border:1px solid var(--line);background:#fff;
+  border-radius:12px;padding:12px 13px;text-align:left;cursor:pointer;
+  display:grid;gap:4px;color:var(--ink)
+}
+.householdChoice:hover{border-color:#aeb9a7;background:#fafbf8}
+.householdChoiceName{font-weight:750}
+.householdChoiceMeta{font-size:12px;color:var(--muted)}
+.currentFamilyName{text-align:center;font-weight:700;margin:8px 0 2px}
