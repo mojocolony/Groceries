@@ -228,3 +228,111 @@ h1{font-size:calc(34px * var(--font-scale));line-height:1;margin:0;letter-spacin
 .householdChoiceName{font-weight:750}
 .householdChoiceMeta{font-size:12px;color:var(--muted)}
 .currentFamilyName{text-align:center;font-weight:700;margin:8px 0 2px}
+
+
+/* v1.5 Store Lists */
+.storeListsWrap{
+  margin-top:32px;padding-top:22px;border-top:1px solid var(--line)
+}
+.storeListsHeading{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin:0 4px 10px
+}
+.storeListsTitle{
+  color:#4f504a;text-transform:uppercase;letter-spacing:.08em;
+  font-weight:750;font-size:calc(12px * var(--font-scale))
+}
+.storeListsSub{
+  color:var(--muted);font-size:calc(11px * var(--font-scale));margin-top:3px
+}
+.newStoreListBtn{
+  border:1px solid #cfd8ca;background:#f7faf5;color:var(--accent);
+  border-radius:10px;padding:8px 10px;white-space:nowrap;cursor:pointer;
+  font-size:calc(12px * var(--font-scale));font-weight:700
+}
+.newStoreListBtn:hover{background:var(--soft)}
+.storeListsEmptyState{
+  color:var(--muted);font-size:calc(12px * var(--font-scale));
+  padding:12px 5px 4px
+}
+.storeList{
+  position:relative;margin-top:9px
+}
+.storeListBar{
+  display:grid;grid-template-columns:34px 1fr 38px;align-items:center;
+  border:1px solid var(--line);background:rgba(255,255,255,.72);
+  border-radius:14px;min-height:48px
+}
+.storeListGrip{
+  width:34px;height:44px;display:grid;place-items:center;color:#a0a198;
+  cursor:grab;touch-action:none
+}
+.storeListGrip:active{cursor:grabbing}
+.storeListGrip svg{width:17px;height:17px;stroke-width:2}
+.storeListToggle{
+  min-width:0;height:46px;border:0;background:transparent;color:#55564f;
+  display:flex;align-items:center;gap:8px;text-align:left;cursor:pointer;padding:0 6px
+}
+.storeListToggle .archiveChevron{flex:0 0 auto}
+.storeList.open .archiveChevron{transform:rotate(90deg)}
+.storeListName{
+  min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:700
+}
+.storeListCount{
+  margin-left:auto;color:#9a9a91;font-size:calc(12px * var(--font-scale));font-weight:650
+}
+.storeListMenuBtn{
+  width:36px;height:36px;border:0;background:transparent;color:#88897f;
+  border-radius:10px;cursor:pointer;font-size:20px
+}
+.storeListMenuBtn:hover{background:#f3f1ec}
+.storeListActions{
+  display:none;grid-template-columns:auto auto;justify-content:end;gap:7px;
+  padding:7px 5px 3px
+}
+.storeListActions.open{display:grid}
+.renameStoreListBtn,.deleteStoreListBtn,.returnMainBtn{
+  border-radius:9px;padding:7px 10px;cursor:pointer;font:inherit
+}
+.renameStoreListBtn{
+  border:1px solid var(--line);background:#fff;color:var(--accent);
+  display:flex;align-items:center;gap:6px
+}
+.renameStoreListBtn svg{width:15px;height:15px;stroke-width:1.9}
+.deleteStoreListBtn{
+  border:1px solid #ead6d3;background:#fff7f6;color:var(--danger)
+}
+.storeListCard{margin-top:7px}
+.storeListCard.isEmpty{
+  min-height:64px;display:flex;align-items:center;justify-content:center;
+  border-style:dashed;box-shadow:none
+}
+.storeListEmpty{
+  color:#a0a198;font-size:calc(12px * var(--font-scale));
+  padding:18px;text-align:center;pointer-events:none
+}
+.store-list-ghost{opacity:.38}
+.store-list-chosen{z-index:4}
+.store-list-drop-before::before,.store-list-drop-after::after{
+  content:"";position:absolute;left:8px;right:8px;height:3px;
+  background:var(--blue);border-radius:999px;z-index:8;pointer-events:none;
+  box-shadow:0 0 0 1px rgba(255,255,255,.9)
+}
+.store-list-drop-before::before{top:-6px}
+.store-list-drop-after::after{bottom:-6px}
+.returnMainBtn{
+  border:1px solid #d8dde4;background:#f7f9fb;color:#586b83;white-space:nowrap
+}
+.dangerPrimary{
+  width:100%;border:0;border-radius:13px;background:var(--danger);
+  color:#fff;padding:13px 15px;margin-top:8px;cursor:pointer
+}
+.mainEmpty{padding-bottom:12px}
+
+@media(max-width:620px){
+  .storeListsHeading{align-items:flex-end}
+  .storeListsSub{max-width:220px}
+  .storeListActions{grid-template-columns:1fr}
+  .storeListActions button{width:100%;justify-content:center}
+  .actions .returnMainBtn{width:100%}
+}

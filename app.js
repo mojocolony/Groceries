@@ -7,6 +7,7 @@ const SECTION_ORDER = [...DATA.sections];
 const KEY = "ourGroceriesV2Demo";
 const FONT_KEY = "groceriesFontScale";
 const ACTIVE_HOUSEHOLD_KEY = "groceriesActiveHousehold";
+const STORE_OPEN_KEY_PREFIX = "groceriesStoreOpen:";
 const BAD_CATALOG_NAMES = new Set(["air freshener candles matches lighters batteries aa batteries aaa batteries light bulbs filters water filters","almond milk beverage oat milk beverage soy beverage non alcoholic beer drink mix powdered drink mix","apples bananas avocados oranges mandarins clementines grapefruit lemons limes grapes strawberries blueberries","applesauce cups pudding cups yogurt tubes snack packs","artichokes okra jicama rutabaga horseradish fresh turmeric fresh herbs salad kit coleslaw mix guacamole","banana bread zucchini bread cornbread biscuits","bandages band aids gauze first aid tape pain reliever acetaminophen ibuprofen aspirin allergy medicine cold medicine","bell peppers red peppers green peppers yellow peppers orange peppers jalapenos hot peppers poblano peppers","body lotion sunscreen sunblock lip balm toothpaste toothbrush toothbrushes dental floss floss picks mouthwash","bok choy swiss chard collard greens broccoli broccolini cauliflower brussels sprouts asparagus green beans","bouillon cubes pasta sauce tomato sauce pizza sauce pesto salsa taco sauce taco seasoning chili powder cumin","bread white bread whole wheat bread whole grain bread multigrain bread rye bread sourdough bread french bread","broth canned broth tuna canned tuna salmon canned salmon sardines anchovies oysters canned oysters crab canned crab","brown rice basmati rice jasmine rice wild rice quinoa couscous barley bulgur farro lentils red lentils green lentils","butter lettuce spring mix mixed greens spinach baby spinach kale arugula cabbage red cabbage napa cabbage","cake mix brownie mix muffin mix cookie mix instant pudding jello gelatin mix tortillas taco shells tostadas","canned beans black beans kidney beans white beans navy beans cannellini beans baked beans refried beans chickpeas","canned green beans canned carrots canned mushrooms canned beets canned pumpkin canned potatoes canned mixed vegetables","canned pineapple canned fruit fruit cocktail applesauce pickles dill pickles bread and butter pickles relish olives","canned tomatoes diced tomatoes crushed tomatoes whole tomatoes tomato paste tomato sauce canned corn canned peas","cantaloupe honeydew pomegranate papaya coconut figs dates apricots rhubarb romaine lettuce iceberg lettuce","cashew milk cream heavy cream whipping cream half and half coffee cream table cream sour cream creme fraiche","chicken chicken breasts chicken thighs chicken drumsticks chicken wings whole chicken ground chicken chicken cutlets","chicken tenders turkey whole turkey turkey breast ground turkey turkey burgers beef ground beef lean ground beef","chips potato chips tortilla chips corn chips nacho chips pretzels crackers saltines ritz crackers wheat crackers","chocolate spread ketchup mustard dijon mustard yellow mustard mayonnaise mayo miracle whip relish hot sauce","coconut milk canned coconut milk evaporated milk condensed milk sweetened condensed milk canned peaches canned pears","coconut oil sesame oil vinegar white vinegar apple cider vinegar balsamic vinegar red wine vinegar rice vinegar","coffee cake pound cake cupcakes cake cookies bakery cookies pie apple pie pumpkin pie tarts brownies","coffee filters vacuum bags mop refills swiffer refills broom dustpan rubber gloves cleaning gloves garbage bin liners","coffee ground coffee coffee beans instant coffee decaf coffee espresso tea black tea green tea herbal tea chai tea","coke pepsi ginger ale root beer lemon lime soda iced tea lemonade orange juice apple juice cranberry juice","comb hairbrush brush hair ties elastics bobby pins nail polish nail polish remover nail clippers hand sanitizer","cookies chocolate chip cookies oatmeal cookies oreos sandwich cookies wafers graham crackers digestive cookies","corn tortillas wraps flatbread pizza crust pizza dough garlic bread breadsticks croutons breadcrumbs","cottage cheese blue cheese monterey jack cheese pepper jack cheese cheese strings cheese slices shredded cheese","cough drops cough syrup antacid vitamins contact solution","dark chocolate chips white chocolate chips cocoa powder coconut shredded coconut raisins dried cranberries","deli turkey turkey slices smoked turkey deli chicken chicken slices ham black forest ham honey ham prosciutto","deodorant antiperspirant razors razor blades shaving cream shaving gel aftershave cotton swabs q tips cotton balls","dish soap dishwasher tablets dishwasher pods dishwasher detergent rinse aid sponges scrubbers steel wool","dried apricots dried fruit dates prunes nuts almonds walnuts pecans cashews peanuts pistachios sunflower seeds","dried beans chickpeas dried chickpeas black beans dried black beans kidney beans dried kidney beans split peas","eggs large eggs extra large eggs brown eggs free range eggs egg whites butter salted butter unsalted butter","energy bars fruit bars fruit snacks gummies gummy bears candy chocolate chocolate bars dark chocolate milk chocolate","extra lean ground beef steak sirloin steak striploin steak ribeye steak tenderloin steak flank steak skirt steak","french fries frozen fries sweet potato fries tater tots hash browns potato wedges onion rings frozen appetizers","frozen bacon frozen seafood frozen salmon frozen vegetables steamers","frozen bagels frozen muffins frozen croissants frozen waffles frozen breakfast sandwiches frozen sausage","frozen berries frozen strawberries frozen blueberries frozen raspberries frozen mixed berries frozen fruit frozen mango","frozen burgers frozen chicken burgers chicken nuggets chicken strips chicken fingers frozen chicken wings","frozen cauliflower frozen spinach frozen green beans frozen mixed vegetables frozen stir fry vegetables edamame","frozen fish fish sticks frozen shrimp ice cream vanilla ice cream chocolate ice cream strawberry ice cream gelato","frozen peaches frozen pineapple frozen cherries frozen vegetables frozen peas frozen corn frozen broccoli","frozen pizza pizza pockets frozen burritos frozen dinners frozen meals frozen lasagna frozen pasta frozen mac and cheese","garlic ginger potatoes russet potatoes red potatoes yellow potatoes yukon gold potatoes sweet potatoes yams","gatorade energy drinks red bull coffee drinks iced coffee cold brew tea drinks kombucha milk drinks chocolate milk","glass cleaner window cleaner floor cleaner wood cleaner oven cleaner stainless steel cleaner laundry detergent","gluten free bread bagels plain bagels everything bagels sesame bagels cinnamon raisin bagels english muffins","grapefruit juice pineapple juice tomato juice vegetable juice grape juice juice boxes coconut water sports drinks","gravy gravy mix broth chicken broth beef broth vegetable broth stock chicken stock beef stock vegetable stock","green olives black olives kalamata olives capers artichoke hearts roasted red peppers jalapenos jarred jalapenos","hamburger buns hot dog buns brioche buns sandwich buns sub buns pita pita bread naan tortillas flour tortillas","honey molasses agave salt sea salt kosher salt pepper black pepper olive oil vegetable oil canola oil avocado oil","hot chocolate cocoa cereal oatmeal oats rolled oats quick oats granola muesli flour all purpose flour bread flour","italian bread ciabatta baguette focaccia pumpernickel bread challah brioche raisin bread cinnamon raisin bread","kitchen cleaner all purpose cleaner disinfectant cleaner disinfecting wipes bleach bathroom cleaner toilet cleaner","laundry pods fabric softener dryer sheets stain remover oxygen bleach hand soap liquid hand soap bar soap","leg of lamb ground lamb salmon salmon fillets trout cod haddock halibut tilapia sole tuna steaks swordfish","lentils canned lentils canned soup tomato soup chicken noodle soup mushroom soup cream of mushroom soup vegetable soup","mac and cheese prepared meals ready meals olives antipasto pickles deli pickles feta olives marinated vegetables","macaroni salad pasta salad coleslaw caesar salad greek salad garden salad tabbouleh hummus tzatziki babaganoush","margarine cheddar cheese old cheddar mild cheddar marble cheese mozzarella cheese parmesan cheese parmigiano reggiano","milk skim milk 1% milk 2% milk whole milk chocolate milk lactose free milk oat milk almond milk soy milk coconut milk","mozzarella sticks spring rolls egg rolls samosas perogies pierogies dumplings potstickers frozen meatballs","muffins blueberry muffins bran muffins chocolate chip muffins corn muffins croissants rolls dinner rolls buns","mushrooms white mushrooms cremini mushrooms portobello mushrooms cilantro parsley basil mint dill rosemary","oregano dried oregano basil dried basil thyme rosemary parsley bay leaves chili flakes red pepper flakes","oyster sauce hoisin sauce tahini salad dressing ranch dressing caesar dressing italian dressing balsamic dressing","panko breadcrumbs hamburger rolls hot dog rolls kaiser rolls pretzel buns donuts doughnuts danishes scones","paper towels toilet paper tissues facial tissue napkins paper plates paper bowls plastic cups disposable cups","paprika smoked paprika garlic powder onion powder cinnamon nutmeg cloves ginger powder curry powder turmeric","pasta sauce marinara sauce alfredo sauce pesto salsa queso sauerkraut kimchi gravy jarred gravy","pasta spaghetti linguine fettuccine penne rigatoni macaroni lasagna noodles egg noodles ramen noodles rice white rice","peanut butter natural peanut butter almond butter cashew butter jam strawberry jam raspberry jam marmalade nutella","plastic cutlery aluminum foil tin foil parchment paper wax paper plastic wrap cling wrap freezer bags sandwich bags","popcorn kernels microwave popcorn nutritional yeast protein pasta noodles","pork pork chops pork tenderloin pork loin pork roast ground pork pork ribs back ribs side ribs bacon breakfast sausage","prepared sandwiches wraps sushi pizza prepared pizza soup prepared soup quiche meat pie lasagna prepared lasagna","pumpkin seeds chia seeds flax seeds sesame seeds crackers breadcrumbs panko stuffing mix pancake mix waffle mix","raspberries blackberries cranberries cherries peaches nectarines plums pears mangoes pineapple kiwi watermelon","refrigerated dough crescent rolls refrigerated cookie dough","rice crackers rice cakes popcorn microwave popcorn cheese puffs cheesies granola bars cereal bars protein bars","roma tomatoes beefsteak tomatoes onions yellow onions red onions white onions green onions scallions shallots","salami genoa salami pepperoni mortadella roast beef pastrami corned beef bologna deli cheese sliced cheese","salsa fresh salsa pico de gallo guacamole rotisserie chicken fried chicken chicken wings chicken tenders","sausages italian sausage mild italian sausage hot italian sausage bratwurst kielbasa chorizo lamb lamb chops","sea bass shrimp prawns scallops mussels clams oysters crab lobster calamari squid smoked salmon fish fillets","shampoo conditioner body wash soap bar soap hand soap face wash facial cleanser moisturizer face moisturizer","shortbread brownies mini muffins snack cakes donuts trail mix nuts mixed nuts peanuts almonds cashews pistachios","snap peas snow peas peas corn corn on the cob carrots baby carrots celery cucumber english cucumber zucchini","sorbet frozen yogurt popsicles ice pops ice cream sandwiches frozen pie frozen cake frozen bread frozen garlic bread","sriracha barbecue sauce bbq sauce steak sauce worcestershire sauce soy sauce tamari teriyaki sauce fish sauce","stewing beef beef roast pot roast roast beef brisket short ribs beef ribs hamburger patties burgers veal veal chops","sunflower seeds pumpkin seeds dried fruit raisins dried cranberries beef jerky jerky pepperettes cheese snacks","swiss cheese havarti cheese gouda cheese brie cheese camembert feta cheese goat cheese cream cheese ricotta cheese","swiss cheese slices cheddar slices provolone slices havarti slices mozzarella slices prepared salad potato salad","thyme sage chives oregano bean sprouts alfalfa sprouts radishes beets turnips parsnips leeks fennel eggplant","tissues tampons pads sanitary pads panty liners hair gel hair spray hairspray mousse hair dye dry shampoo","toothpicks skewers straws foil pans disposable pans","vanilla vanilla extract baking powder baking soda yeast cornstarch corn starch gelatin chocolate chips","waffles frozen waffles belgian waffles toaster waffles pancakes frozen pancakes french toast frozen french toast","water bottled water spring water distilled water sparkling water soda water club soda tonic water pop soda cola","white fish seafood mix anchovies fresh fish","whole wheat flour almond flour cornmeal sugar white sugar brown sugar icing sugar powdered sugar maple syrup syrup","yellow squash butternut squash acorn squash spaghetti squash pumpkin tomatoes cherry tomatoes grape tomatoes","yogurt greek yogurt plain yogurt vanilla yogurt fruit yogurt skyr kefir pudding whipped cream buttermilk","zipper bags storage bags garbage bags trash bags compost bags recycling bags food containers storage containers"]);
 function validCatalogName(name){return !BAD_CATALOG_NAMES.has(String(name||"").trim().toLowerCase())}
 function normalizeSuggestionName(name){
@@ -21,12 +22,15 @@ function validSuggestionName(name){
 }
 
 
-let sb=null, household=null, user=null, items=[], customCatalog=[], recent=[], channel=null;
+let sb=null, household=null, user=null, items=[], customCatalog=[], recent=[], storeLists=[], channel=null;
 let activeSuggestion=-1, demo=!cloudReady;
 let sortables=[];
 let editingId=null;
 let sectionSortable=null;
 let boughtOpen=false;
+let storeListSortable=null;
+let storeOpen=new Set();
+let suppressRealtime=false;
 
 const $=id=>document.getElementById(id);
 const itemInput=$("itemInput"), suggestions=$("suggestions"), list=$("list"), quick=$("quick");
@@ -89,8 +93,36 @@ function fullCatalog(){
   return [...m.values()];
 }
 function nextSortOrder(section){
-  const vals=items.filter(x=>!x.bought && x.section===section).map(x=>Number(x.sort_order)||0);
+  const vals=items.filter(x=>!x.bought && !x.store_list_id && x.section===section).map(x=>Number(x.sort_order)||0);
   return (vals.length?Math.max(...vals):0)+1000;
+}
+function nextStoreListOrder(){
+  const vals=storeLists.map(x=>Number(x.sort_order)||0);
+  return (vals.length?Math.max(...vals):0)+1000;
+}
+function storeListOrder(a,b){
+  const ao=Number(a.sort_order)||0,bo=Number(b.sort_order)||0;
+  if(ao!==bo)return ao-bo;
+  return new Date(a.created_at||0)-new Date(b.created_at||0);
+}
+function storeOpenKey(){
+  return STORE_OPEN_KEY_PREFIX+(household?.id||"demo");
+}
+function loadStoreOpenState(){
+  storeOpen=new Set();
+  try{
+    const saved=JSON.parse(localStorage.getItem(storeOpenKey())||"[]");
+    if(Array.isArray(saved))saved.forEach(id=>storeOpen.add(String(id)));
+  }catch(e){}
+}
+function saveStoreOpenState(){
+  localStorage.setItem(storeOpenKey(),JSON.stringify([...storeOpen]));
+}
+function toggleStoreOpen(id){
+  id=String(id);
+  if(storeOpen.has(id))storeOpen.delete(id);else storeOpen.add(id);
+  saveStoreOpenState();
+  render();
 }
 function itemOrder(a,b){
   const ao=Number(a.sort_order)||0, bo=Number(b.sort_order)||0;
@@ -133,10 +165,10 @@ function demoLoad(){
       ["Chicken breasts","Meat & Seafood"],["Milk","Dairy & Eggs"],["Eggs","Dairy & Eggs"],
       ["Coffee","Pantry"],["Paper towels","Household & Cleaning"]
     ].map((x,i)=>({id:Date.now()+i,name:x[0],section:x[1],bought:false,starred:false,sort_order:(i+1)*1000,created_at:new Date().toISOString()})),
-    catalog:[],recent:["Milk","Bananas","Eggs","Coffee","Paper towels"]
+    catalog:[],recent:["Milk","Bananas","Eggs","Coffee","Paper towels"],storeLists:[]
   };
 }
-function demoSave(){localStorage.setItem(KEY,JSON.stringify({items,catalog:customCatalog,recent,sectionOrder:[...SECTION_ORDER]}))}
+function demoSave(){localStorage.setItem(KEY,JSON.stringify({items,catalog:customCatalog,recent,storeLists,sectionOrder:[...SECTION_ORDER]}))}
 
 function applySectionOrder(order){
   if(!Array.isArray(order)||!order.length)return;
@@ -158,8 +190,9 @@ async function init(){
 
   if(!cloudReady){
     const d=demoLoad();
-    items=d.items||[];customCatalog=d.catalog||[];recent=d.recent||[];
+    items=d.items||[];customCatalog=d.catalog||[];recent=d.recent||[];storeLists=d.storeLists||[];
     applySectionOrder(d.sectionOrder);
+    loadStoreOpenState();
     demo=true;
     statusText.textContent="Demo";
     statusDot.classList.remove("online");
@@ -249,6 +282,7 @@ async function enterHousehold(id){
   household=h;
   localStorage.setItem(ACTIVE_HOUSEHOLD_KEY,String(h.id));
   applySectionOrder(h.section_order);
+  loadStoreOpenState();
 
   await reloadCloud();
 
@@ -262,19 +296,24 @@ async function enterHousehold(id){
 }
 async function reloadCloud(){
   if(demo)return;
-  const [{data:i,error:ie},{data:c,error:ce}]=await Promise.all([
+  const [{data:i,error:ie},{data:c,error:ce},{data:s,error:se}]=await Promise.all([
     sb.from("grocery_items").select("*").eq("household_id",household.id).order("sort_order",{ascending:true}).order("created_at",{ascending:true}),
-    sb.from("household_catalog").select("name,section,usage_count,last_used_at").eq("household_id",household.id).order("last_used_at",{ascending:false}).limit(150)
+    sb.from("household_catalog").select("name,section,usage_count,last_used_at").eq("household_id",household.id).order("last_used_at",{ascending:false}).limit(150),
+    sb.from("store_lists").select("*").eq("household_id",household.id).order("sort_order",{ascending:true}).order("created_at",{ascending:true})
   ]);
-  if(ie)throw ie;if(ce)throw ce;
-  items=i||[]; customCatalog=(c||[]).filter(x=>validSuggestionName(x.name)).map(x=>({...x,name:normalizeSuggestionName(x.name)}));
+  if(ie)throw ie;if(ce)throw ce;if(se)throw se;
+  items=i||[];
+  customCatalog=(c||[]).filter(x=>validSuggestionName(x.name)).map(x=>({...x,name:normalizeSuggestionName(x.name)}));
   recent=customCatalog.map(x=>x.name);
+  storeLists=(s||[]).sort(storeListOrder);
 }
 function subscribe(){
   if(channel) sb.removeChannel(channel);
   channel=sb.channel("groceries-"+household.id)
     .on("postgres_changes",{event:"*",schema:"public",table:"grocery_items",filter:`household_id=eq.${household.id}`},
-      async()=>{await reloadCloud();render()})
+      async()=>{if(suppressRealtime)return;await reloadCloud();render()})
+    .on("postgres_changes",{event:"*",schema:"public",table:"store_lists",filter:`household_id=eq.${household.id}`},
+      async()=>{if(suppressRealtime)return;await reloadCloud();render()})
     .on("postgres_changes",{event:"UPDATE",schema:"public",table:"households",filter:`id=eq.${household.id}`},
       payload=>{if(payload.new&&payload.new.section_order){household.section_order=payload.new.section_order;applySectionOrder(payload.new.section_order);render()}})
     .subscribe();
@@ -474,6 +513,166 @@ function showFamilyCode(first=false){
   $("manageFamilies").onclick=showManageHouseholds;
   $("closeFamily").onclick=closeModal;
 }
+
+function showStoreListEditor(id=null){
+  const existing=id?storeLists.find(x=>String(x.id)===String(id)):null;
+  $("modalRoot").innerHTML=`<div class="overlay"><div class="sheet">
+    <h2>${existing?"Rename store list":"New store list"}</h2>
+    <p>${existing?"Change the name of this list.":"Create a list for a store or shopping destination."}</p>
+    <input id="storeListName" value="${attr(existing?.name||"")}" placeholder="e.g. Costco" autocomplete="off">
+    <button class="primary" id="saveStoreList">${existing?"Save name":"Create list"}</button>
+    <button class="secondary" id="cancelStoreList">Cancel</button>
+    <div class="error" id="storeListError"></div>
+  </div></div>`;
+  const input=$("storeListName");
+  requestAnimationFrame(()=>{input.focus();input.select()});
+  $("saveStoreList").onclick=()=>saveStoreList(existing?.id||null);
+  $("cancelStoreList").onclick=closeModal;
+  input.onkeydown=e=>{
+    if(e.key==="Enter"){e.preventDefault();saveStoreList(existing?.id||null)}
+    if(e.key==="Escape"){e.preventDefault();closeModal()}
+  };
+}
+
+async function saveStoreList(id=null){
+  const input=$("storeListName");
+  const name=String(input?.value||"").trim().replace(/\s+/g," ");
+  const err=$("storeListError");
+  if(err)err.textContent="";
+  if(!name){if(err)err.textContent="Enter a list name.";input?.focus();return}
+
+  if(demo){
+    if(id){
+      const x=storeLists.find(s=>String(s.id)===String(id));if(x)x.name=name;
+    }else{
+      const newId=String(Date.now()+Math.random());
+      storeLists.push({id:newId,household_id:"demo",name,sort_order:nextStoreListOrder(),created_at:new Date().toISOString()});
+      storeOpen.add(newId);saveStoreOpenState();
+    }
+    storeLists.sort(storeListOrder);demoSave();closeModal();render();return;
+  }
+
+  try{
+    suppressRealtime=true;
+    if(id){
+      const {error}=await sb.from("store_lists").update({name}).eq("id",id).eq("household_id",household.id);
+      if(error)throw error;
+    }else{
+      const sort_order=nextStoreListOrder();
+      const {data,error}=await sb.from("store_lists").insert({
+        household_id:household.id,name,sort_order,created_by:user.id
+      }).select("*").single();
+      if(error)throw error;
+      if(data){storeOpen.add(String(data.id));saveStoreOpenState()}
+    }
+    suppressRealtime=false;
+    await reloadCloud();
+    closeModal();
+    render();
+  }catch(e){
+    suppressRealtime=false;
+    if(err)err.textContent=e.message||e;
+  }
+}
+
+function confirmDeleteStoreList(id){
+  const x=storeLists.find(s=>String(s.id)===String(id));if(!x)return;
+  const itemCount=items.filter(i=>!i.bought&&String(i.store_list_id||"")===String(id)).length;
+  $("modalRoot").innerHTML=`<div class="overlay"><div class="sheet">
+    <h2>Delete ${esc(x.name)}?</h2>
+    <p>${itemCount?`${itemCount} active ${itemCount===1?"item":"items"} will return to the main grocery list in their remembered sections.`:"This list is empty."} No grocery items will be deleted.</p>
+    <button class="dangerPrimary" id="deleteStoreListConfirm">Delete list</button>
+    <button class="secondary" id="cancelDeleteStoreList">Cancel</button>
+    <div class="error" id="storeListError"></div>
+  </div></div>`;
+  $("deleteStoreListConfirm").onclick=()=>deleteStoreList(id);
+  $("cancelDeleteStoreList").onclick=closeModal;
+}
+
+async function deleteStoreList(id){
+  const err=$("storeListError");if(err)err.textContent="";
+  const oldLists=[...storeLists];
+  const oldItems=items.map(x=>({...x}));
+
+  if(demo){
+    storeLists=storeLists.filter(s=>String(s.id)!==String(id));
+    items.forEach(x=>{if(String(x.store_list_id||"")===String(id))x.store_list_id=null});
+    storeOpen.delete(String(id));saveStoreOpenState();
+    demoSave();closeModal();render();return;
+  }
+
+  try{
+    suppressRealtime=true;
+    const {error}=await sb.from("store_lists").delete().eq("id",id).eq("household_id",household.id);
+    if(error)throw error;
+    suppressRealtime=false;
+    storeOpen.delete(String(id));saveStoreOpenState();
+    await reloadCloud();
+    closeModal();
+    render();
+  }catch(e){
+    suppressRealtime=false;
+    storeLists=oldLists;items=oldItems;
+    if(err)err.textContent=e.message||e;
+  }
+}
+
+async function persistStoreListOrder(){
+  const host=$("storeListsHost");if(!host)return;
+  const ids=[...host.querySelectorAll(".storeList[data-store-list-id]")].map(el=>el.dataset.storeListId);
+  if(!ids.length)return;
+
+  ids.forEach((id,index)=>{
+    const x=storeLists.find(s=>String(s.id)===String(id));
+    if(x)x.sort_order=(index+1)*1000;
+  });
+  storeLists.sort(storeListOrder);
+
+  if(demo){demoSave();render();return}
+
+  try{
+    suppressRealtime=true;
+    for(const id of ids){
+      const x=storeLists.find(s=>String(s.id)===String(id));if(!x)continue;
+      const {error}=await sb.from("store_lists").update({sort_order:x.sort_order}).eq("id",x.id).eq("household_id",household.id);
+      if(error)throw error;
+    }
+    suppressRealtime=false;
+    await reloadCloud();
+    render();
+  }catch(e){
+    suppressRealtime=false;
+    await reloadCloud();
+    render();
+    flash(e.message||e);
+  }
+}
+
+async function moveItemToMain(id){
+  const x=items.find(i=>String(i.id)===String(id));if(!x)return;
+  if(!x.store_list_id)return;
+  const oldStore=x.store_list_id,oldOrder=x.sort_order;
+  x.store_list_id=null;
+  x.sort_order=nextSortOrder(x.section);
+  render();
+
+  if(demo){demoSave();return}
+
+  try{
+    suppressRealtime=true;
+    const {error}=await sb.from("grocery_items").update({
+      store_list_id:null,sort_order:x.sort_order
+    }).eq("id",id);
+    if(error)throw error;
+    suppressRealtime=false;
+    await reloadCloud();render();
+  }catch(e){
+    suppressRealtime=false;
+    x.store_list_id=oldStore;x.sort_order=oldOrder;
+    await reloadCloud();render();flash(e.message||e);
+  }
+}
+
 async function addItem(raw){
   const clean=norm(raw);if(!clean)return;
   const name=displayName(clean);
@@ -573,7 +772,7 @@ async function changeSection(id,section){
   const oldSection=x.section;
   const oldOrder=x.sort_order;
   x.section=section;
-  x.sort_order=nextSortOrder(section);
+  if(!x.store_list_id)x.sort_order=nextSortOrder(section);
 
   let learned=customCatalog.find(z=>z.name.toLowerCase()===x.name.toLowerCase());
   if(learned){learned.section=section;learned.last_used_at=new Date().toISOString()}
@@ -608,23 +807,29 @@ async function clearBought(){
   if(error){items=[...items,...removed];render();flash(error.message)}
 }
 
-async function persistOrder(section){
-  const card=document.querySelector(`.card[data-section="${CSS.escape(section)}"]`);
-  if(!card)return;
-  const ids=[...card.querySelectorAll(".row[data-id]")].map(el=>el.dataset.id);
+async function persistItemContainer(container){
+  if(!container)return;
+  const ids=[...container.querySelectorAll(".row[data-id]")].map(el=>el.dataset.id);
+  const storeId=container.dataset.storeListId||null;
+  const section=container.dataset.section||null;
 
   if(demo){
     ids.forEach((id,index)=>{
       const x=items.find(i=>String(i.id)===String(id));if(!x)return;
       x.sort_order=(index+1)*1000;
-      if(x.section!==section){
-        x.section=section;
-        let learned=customCatalog.find(z=>z.name.toLowerCase()===x.name.toLowerCase());
-        if(learned) learned.section=section;
-        else customCatalog.unshift({name:x.name,section,usage_count:1,last_used_at:new Date().toISOString()});
+      if(storeId){
+        x.store_list_id=storeId;
+      }else if(section){
+        x.store_list_id=null;
+        if(x.section!==section){
+          x.section=section;
+          let learned=customCatalog.find(z=>z.name.toLowerCase()===x.name.toLowerCase());
+          if(learned)learned.section=section;
+          else customCatalog.unshift({name:x.name,section,usage_count:1,last_used_at:new Date().toISOString()});
+        }
       }
     });
-    demoSave();render();return;
+    return;
   }
 
   for(let index=0;index<ids.length;index++){
@@ -632,26 +837,57 @@ async function persistOrder(section){
     const x=items.find(i=>String(i.id)===String(id));if(!x)continue;
     const order=(index+1)*1000;
 
-    if(x.section!==section){
-      // Persist the household correction before the grocery row, so realtime
-      // reloads cannot race ahead of the learned category.
-      const {error:learnError}=await sb.rpc("set_catalog_section",{
-        p_household_id:household.id,p_name:x.name,p_section:section
-      });
-      if(learnError){flash(learnError.message);continue}
-      x.section=section;
-      let learned=customCatalog.find(z=>z.name.toLowerCase()===x.name.toLowerCase());
-      if(learned) learned.section=section;
-      else customCatalog.unshift({name:x.name,section,usage_count:1,last_used_at:new Date().toISOString()});
+    if(storeId){
+      x.store_list_id=storeId;
+      x.sort_order=order;
+      const {error}=await sb.from("grocery_items").update({
+        store_list_id:storeId,sort_order:order
+      }).eq("id",id);
+      if(error)throw error;
+      continue;
     }
 
-    x.sort_order=order;
-    const {error}=await sb.from("grocery_items").update({
-      section:x.section,sort_order:order
-    }).eq("id",id);
-    if(error) flash(error.message);
+    if(section){
+      if(x.section!==section){
+        const {error:learnError}=await sb.rpc("set_catalog_section",{
+          p_household_id:household.id,p_name:x.name,p_section:section
+        });
+        if(learnError)throw learnError;
+        x.section=section;
+        let learned=customCatalog.find(z=>z.name.toLowerCase()===x.name.toLowerCase());
+        if(learned)learned.section=section;
+        else customCatalog.unshift({name:x.name,section,usage_count:1,last_used_at:new Date().toISOString()});
+      }
+      x.store_list_id=null;
+      x.sort_order=order;
+      const {error}=await sb.from("grocery_items").update({
+        section:x.section,store_list_id:null,sort_order:order
+      }).eq("id",id);
+      if(error)throw error;
+    }
   }
-  render();
+}
+
+async function persistItemDrop(to,from){
+  try{
+    if(demo){
+      await persistItemContainer(to);
+      if(from&&from!==to)await persistItemContainer(from);
+      demoSave();render();return;
+    }
+
+    suppressRealtime=true;
+    await persistItemContainer(to);
+    if(from&&from!==to)await persistItemContainer(from);
+    suppressRealtime=false;
+    await reloadCloud();
+    render();
+  }catch(e){
+    suppressRealtime=false;
+    if(!demo)await reloadCloud();
+    render();
+    flash(e.message||e);
+  }
 }
 function clearDropIndicators(){
   document.querySelectorAll(".drop-before,.drop-after").forEach(el=>{
@@ -660,33 +896,33 @@ function clearDropIndicators(){
 }
 function setupSortables(){
   sortables.forEach(s=>s.destroy());sortables=[];
+  if(storeListSortable){storeListSortable.destroy();storeListSortable=null}
   if(typeof Sortable==="undefined")return;
-  document.querySelectorAll(".card[data-section]").forEach(card=>{
+
+  document.querySelectorAll(".itemDropZone").forEach(card=>{
     sortables.push(new Sortable(card,{
-      group:"groceries",
+      group:"groceries-items",
       animation:150,
       delay:120,
       delayOnTouchOnly:true,
       touchStartThreshold:4,
       draggable:".row",
-      filter:".check,.starBtn,.menuBtn,.actions,select,button",
+      filter:".check,.starBtn,.menuBtn,.actions,select,button,.storeListEmpty",
       preventOnFilter:false,
       ghostClass:"sortable-ghost",
       chosenClass:"sortable-chosen",
+      emptyInsertThreshold:24,
       onMove:evt=>{
         clearDropIndicators();
         const target=evt.related;
-        if(target && target.classList && target.classList.contains("row")){
+        if(target&&target.classList&&target.classList.contains("row")){
           target.classList.add(evt.willInsertAfter?"drop-after":"drop-before");
         }
         return true;
       },
       onEnd:async evt=>{
         clearDropIndicators();
-        const fromSection=evt.from.dataset.section;
-        const toSection=evt.to.dataset.section;
-        await persistOrder(toSection);
-        if(fromSection!==toSection) await persistOrder(fromSection);
+        await persistItemDrop(evt.to,evt.from);
       },
       onUnchoose:clearDropIndicators
     }));
@@ -718,29 +954,55 @@ function setupSortables(){
       }
     });
   }
+
+  const storeHost=$("storeListsHost");
+  if(storeHost){
+    storeListSortable=new Sortable(storeHost,{
+      animation:150,
+      draggable:".storeList",
+      handle:".storeListGrip",
+      ghostClass:"store-list-ghost",
+      chosenClass:"store-list-chosen",
+      onMove:evt=>{
+        document.querySelectorAll(".store-list-drop-before,.store-list-drop-after").forEach(el=>el.classList.remove("store-list-drop-before","store-list-drop-after"));
+        const target=evt.related;
+        if(target&&target.classList&&target.classList.contains("storeList")){
+          target.classList.add(evt.willInsertAfter?"store-list-drop-after":"store-list-drop-before");
+        }
+        return true;
+      },
+      onEnd:async()=>{
+        document.querySelectorAll(".store-list-drop-before,.store-list-drop-after").forEach(el=>el.classList.remove("store-list-drop-before","store-list-drop-after"));
+        await persistStoreListOrder();
+      }
+    });
+  }
 }
 
 function render(){
   const active=items.filter(x=>!x.bought);
+  const mainActive=active.filter(x=>!x.store_list_id);
   count.textContent=`${active.length} ${active.length===1?"item":"items"}`;
   if(demo){statusText.textContent="Demo";statusDot.classList.remove("online")}
   renderQuick();
 
   let html="";
-  if(!active.length){
-    html=`<div class="empty"><div class="emptyIcon">${BASKET_SVG}</div>Your list is empty.<br>Add something above.</div>`;
+  if(!mainActive.length){
+    html=`<div class="empty mainEmpty"><div class="emptyIcon">${BASKET_SVG}</div>${active.length?"Your main list is empty.":"Your list is empty."}<br>${active.length?"Items in store lists are below.":"Add something above."}</div>`;
   }
 
   let activeSectionsHtml="";
   for(const section of SECTION_ORDER){
-    const arr=active.filter(x=>x.section===section).sort(itemOrder);
+    const arr=mainActive.filter(x=>x.section===section).sort(itemOrder);
     if(!arr.length)continue;
     activeSectionsHtml+=`<section class="section" data-section="${attr(section)}">
       <div class="section-title" title="Drag to reorder sections"><span class="sectionGrip">${GRIP_SVG}</span><span class="sectionName">${esc(section)}</span><span class="sectionCount">${arr.length}</span></div>
-      <div class="card" data-section="${attr(section)}">${arr.map(rowHtml).join("")}</div>
+      <div class="card itemDropZone" data-section="${attr(section)}">${arr.map(rowHtml).join("")}</div>
     </section>`;
   }
   if(activeSectionsHtml)html+=`<div id="activeSections">${activeSectionsHtml}</div>`;
+
+  html+=renderStoreLists(active);
 
   const bought=items.filter(x=>x.bought).sort((a,b)=>new Date(b.bought_at||0)-new Date(a.bought_at||0));
   if(bought.length){
@@ -770,19 +1032,70 @@ function render(){
     if(e.key==="Escape"){e.preventDefault();cancelEdit()}
   });
   document.querySelectorAll(".deleteBtn").forEach(b=>b.onclick=()=>deleteItem(b.dataset.id));
+  document.querySelectorAll(".returnMainBtn").forEach(b=>b.onclick=()=>moveItemToMain(b.dataset.id));
   document.querySelectorAll(".boughtEditBtn").forEach(b=>b.onclick=()=>editItem(b.dataset.id));
   document.querySelectorAll(".boughtDeleteBtn").forEach(b=>b.onclick=()=>deleteItem(b.dataset.id));
   document.querySelectorAll("select[data-id]").forEach(s=>s.onchange=()=>changeSection(s.dataset.id,s.value));
+
+  document.querySelectorAll(".storeListToggle").forEach(b=>b.onclick=()=>toggleStoreOpen(b.dataset.storeListId));
+  document.querySelectorAll(".storeListMenuBtn").forEach(b=>b.onclick=()=>{
+    const a=$("store-actions-"+b.dataset.storeListId);
+    if(a)a.classList.toggle("open");
+  });
+  document.querySelectorAll(".renameStoreListBtn").forEach(b=>b.onclick=()=>showStoreListEditor(b.dataset.storeListId));
+  document.querySelectorAll(".deleteStoreListBtn").forEach(b=>b.onclick=()=>confirmDeleteStoreList(b.dataset.storeListId));
+  if($("newStoreList"))$("newStoreList").onclick=()=>showStoreListEditor();
+
   if($("boughtToggle"))$("boughtToggle").onclick=()=>{boughtOpen=!boughtOpen;render()};
   if($("clearBought"))$("clearBought").onclick=clearBought;
   setupSortables();
+}
+
+function renderStoreLists(active){
+  const ordered=[...storeLists].sort(storeListOrder);
+  let listsHtml="";
+  for(const s of ordered){
+    const id=String(s.id);
+    const arr=active.filter(x=>String(x.store_list_id||"")===id).sort(itemOrder);
+    const open=storeOpen.has(id);
+    listsHtml+=`<section class="storeList ${open?"open":""}" data-store-list-id="${attr(id)}">
+      <div class="storeListBar">
+        <span class="storeListGrip" title="Drag to reorder lists">${GRIP_SVG}</span>
+        <button class="storeListToggle" data-store-list-id="${attr(id)}" aria-expanded="${open?"true":"false"}">
+          <span class="archiveChevron">${CHEVRON_SVG}</span>
+          <span class="storeListName">${esc(s.name)}</span>
+          <span class="storeListCount">${arr.length}</span>
+        </button>
+        <button class="storeListMenuBtn" data-store-list-id="${attr(id)}" aria-label="${attr(s.name)} list options">•••</button>
+      </div>
+      <div class="storeListActions" id="store-actions-${attr(id)}">
+        <button class="renameStoreListBtn" data-store-list-id="${attr(id)}">${PENCIL_SVG}<span>Rename</span></button>
+        <button class="deleteStoreListBtn" data-store-list-id="${attr(id)}">Delete list</button>
+      </div>
+      ${open?`<div class="card itemDropZone storeListCard ${arr.length?"":"isEmpty"}" data-store-list-id="${attr(id)}">
+        ${arr.map(rowHtml).join("")}
+        ${arr.length?"":`<div class="storeListEmpty">Drag grocery items here</div>`}
+      </div>`:""}
+    </section>`;
+  }
+
+  return `<section class="storeListsWrap">
+    <div class="storeListsHeading">
+      <div>
+        <div class="storeListsTitle">Store lists</div>
+        <div class="storeListsSub">Drag items here for particular stores</div>
+      </div>
+      <button class="newStoreListBtn" id="newStoreList">+ New list</button>
+    </div>
+    ${ordered.length?`<div id="storeListsHost">${listsHtml}</div>`:`<div class="storeListsEmptyState">No store lists yet.</div>`}
+  </section>`;
 }
 function boughtRowHtml(x){
   return `<div class="boughtRow" data-id="${attr(x.id)}">
     <button class="check boughtRestore" data-id="${attr(x.id)}" aria-label="Restore ${attr(x.name)} to list"></button>
     <div class="boughtItemText">
       <div class="itemname">${esc(x.name)}</div>
-      <div class="meta">Tap the checkmark to restore</div>
+      <div class="meta">Tap the checkmark to restore${x.store_list_id&&storeLists.find(s=>String(s.id)===String(x.store_list_id))?` · ${esc(storeLists.find(s=>String(s.id)===String(x.store_list_id)).name)}`:""}</div>
     </div>
     <div class="boughtRowActions">
       <button class="boughtEditBtn" data-id="${attr(x.id)}" aria-label="Edit ${attr(x.name)}">Edit</button>
@@ -794,6 +1107,7 @@ function rowHtml(x){
   const opts=SECTION_ORDER.map(s=>`<option ${s===x.section?"selected":""}>${esc(s)}</option>`).join("");
   const activeStar=!x.bought?`<button class="starBtn ${x.starred?"active":""}" data-id="${attr(x.id)}" aria-label="${x.starred?"Unstar":"Star"} ${attr(x.name)}">${STAR_SVG}</button>`:"";
   const editing=(typeof editingId!=="undefined")&&String(editingId)===String(x.id);
+  const inStore=!!x.store_list_id;
   const nameArea=editing
     ? `<div class="inlineEditor">
          <input class="inlineEditInput" data-id="${attr(x.id)}" value="${attr(x.name)}" aria-label="Edit grocery item">
@@ -802,13 +1116,13 @@ function rowHtml(x){
            <button class="inlineEditSave" data-id="${attr(x.id)}" type="button">Save</button>
          </div>
        </div>`
-    : `<div><div class="itemname">${esc(x.name)}</div>${x.section==="Other"?`<div class="meta">Unsorted — choose a section once and I’ll remember it</div>`:""}</div>`;
+    : `<div><div class="itemname">${esc(x.name)}</div>${inStore?`<div class="meta">${esc(x.section)}</div>`:(x.section==="Other"?`<div class="meta">Unsorted — choose a section once and I’ll remember it</div>`:"")}</div>`;
   return `<div class="row ${x.starred&&!x.bought?"starred":""} ${editing?"editing":""}" data-id="${attr(x.id)}">
     <button class="check" data-id="${attr(x.id)}" aria-label="${x.bought?"Put back":"Mark bought"}"></button>
     ${nameArea}
     ${editing?"":activeStar}
     ${editing?"":`<button class="menuBtn" data-id="${attr(x.id)}" aria-label="Item options">•••</button>`}
-    ${editing?"":`<div class="actions" id="actions-${attr(x.id)}"><button class="editBtn" data-id="${attr(x.id)}">${PENCIL_SVG}<span>Edit</span></button><select data-id="${attr(x.id)}" aria-label="Move ${attr(x.name)} to section">${opts}</select><button class="deleteBtn" data-id="${attr(x.id)}">Delete</button></div>`}
+    ${editing?"":`<div class="actions" id="actions-${attr(x.id)}"><button class="editBtn" data-id="${attr(x.id)}">${PENCIL_SVG}<span>Edit</span></button><select data-id="${attr(x.id)}" aria-label="Move ${attr(x.name)} to section">${opts}</select>${inStore?`<button class="returnMainBtn" data-id="${attr(x.id)}">Main list</button>`:""}<button class="deleteBtn" data-id="${attr(x.id)}">Delete</button></div>`}
   </div>`;
 }
 function renderQuick(){
