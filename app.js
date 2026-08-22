@@ -96,6 +96,12 @@ function nextSortOrder(section){
   const vals=items.filter(x=>!x.bought && !x.store_list_id && x.section===section).map(x=>Number(x.sort_order)||0);
   return (vals.length?Math.max(...vals):0)+1000;
 }
+function nextStoreItemOrder(storeListId){
+  const vals=items
+    .filter(x=>!x.bought && String(x.store_list_id||"")===String(storeListId))
+    .map(x=>Number(x.sort_order)||0);
+  return (vals.length?Math.max(...vals):0)+1000;
+}
 function nextStoreListOrder(){
   const vals=storeLists.map(x=>Number(x.sort_order)||0);
   return (vals.length?Math.max(...vals):0)+1000;
@@ -673,22 +679,68 @@ async function moveItemToMain(id){
   }
 }
 
-async function addItem(raw){
+async function addItem(raw,storeListId=null,sourceInput=null){
   const clean=norm(raw);if(!clean)return;
   const name=displayName(clean);
-  if(items.find(x=>!x.bought&&x.name.toLowerCase()===name.toLowerCase())){flash("Already on the list");return}
+  const duplicate=items.find(x=>!x.bought&&x.name.toLowerCase()===name.toLowerCase());
+  if(duplicate){
+    if(sourceInput){
+      const old=sourceInput.placeholder;
+      sourceInput.value="";
+      sourceInput.placeholder="Already on the list";
+      setTimeout(()=>sourceInput.placeholder=old,1100);
+      sourceInput.focus();
+    }else{
+      flash("Already on the list");
+    }
+    return;
+  }
+
   const section=inferSection(clean);
-  const sort_order=nextSortOrder(section);
+  const destination=storeListId?String(storeListId):null;
+  const sort_order=destination?nextStoreItemOrder(destination):nextSortOrder(section);
+
   if(demo){
-    items.push({id:Date.now()+Math.random(),name,section,bought:false,starred:false,sort_order,created_at:new Date().toISOString()});
-    customTouchLocal(name,section);demoSave();render();
+    items.push({
+      id:Date.now()+Math.random(),
+      name,section,bought:false,starred:false,sort_order,
+      store_list_id:destination,
+      created_at:new Date().toISOString()
+    });
+    customTouchLocal(name,section);
+    demoSave();
+    render();
   }else{
-    const {error}=await sb.from("grocery_items").insert({household_id:household.id,name,section,bought:false,starred:false,sort_order,created_by:user.id});
-    if(error){flash(error.message);return}
+    const {error}=await sb.from("grocery_items").insert({
+      household_id:household.id,
+      name,section,bought:false,starred:false,sort_order,
+      store_list_id:destination,
+      created_by:user.id
+    });
+    if(error){
+      if(sourceInput){
+        const old=sourceInput.placeholder;
+        sourceInput.value="";
+        sourceInput.placeholder=error.message;
+        setTimeout(()=>sourceInput.placeholder=old,1600);
+        sourceInput.focus();
+      }else{
+        flash(error.message);
+      }
+      return;
+    }
     await sb.rpc("touch_catalog",{p_household_id:household.id,p_name:name,p_section:section});
     customTouchLocal(name,section);
   }
-  itemInput.value="";closeSuggestions();itemInput.focus();
+
+  if(sourceInput){
+    sourceInput.value="";
+    sourceInput.focus();
+  }else{
+    itemInput.value="";
+    closeSuggestions();
+    itemInput.focus();
+  }
 }
 function customTouchLocal(name,section){
   let x=customCatalog.find(c=>c.name.toLowerCase()===name.toLowerCase());
@@ -1044,6 +1096,16 @@ function render(){
   });
   document.querySelectorAll(".renameStoreListBtn").forEach(b=>b.onclick=()=>showStoreListEditor(b.dataset.storeListId));
   document.querySelectorAll(".deleteStoreListBtn").forEach(b=>b.onclick=()=>confirmDeleteStoreList(b.dataset.storeListId));
+  document.querySelectorAll(".storeListAddBtn").forEach(b=>b.onclick=()=>{
+    const input=$("store-add-"+b.dataset.storeListId);
+    if(input)addItem(input.value,b.dataset.storeListId,input);
+  });
+  document.querySelectorAll(".storeListAddInput").forEach(input=>input.onkeydown=e=>{
+    if(e.key==="Enter"){
+      e.preventDefault();
+      addItem(input.value,input.dataset.storeListId,input);
+    }
+  });
   if($("newStoreList"))$("newStoreList").onclick=()=>showStoreListEditor();
 
   if($("boughtToggle"))$("boughtToggle").onclick=()=>{boughtOpen=!boughtOpen;render()};
@@ -1072,9 +1134,23 @@ function renderStoreLists(active){
         <button class="renameStoreListBtn" data-store-list-id="${attr(id)}">${PENCIL_SVG}<span>Rename</span></button>
         <button class="deleteStoreListBtn" data-store-list-id="${attr(id)}">Delete list</button>
       </div>
-      ${open?`<div class="card itemDropZone storeListCard ${arr.length?"":"isEmpty"}" data-store-list-id="${attr(id)}">
+      ${open?`<div class="card itemDropZone storeListCard" data-store-list-id="${attr(id)}">
         ${arr.map(rowHtml).join("")}
-        ${arr.length?"":`<div class="storeListEmpty">Drag grocery items here</div>`}
+        ${arr.length?"":`<div class="storeListEmpty">Drag grocery items here, or add one below</div>`}
+        <div class="storeListAdd">
+          <input
+            class="storeListAddInput"
+            id="store-add-${attr(id)}"
+            data-store-list-id="${attr(id)}"
+            placeholder="Add an item to ${attr(s.name)}…"
+            autocomplete="off"
+            enterkeyhint="done"
+            aria-label="Add an item to ${attr(s.name)}">
+          <button
+            class="storeListAddBtn"
+            data-store-list-id="${attr(id)}"
+            aria-label="Add item to ${attr(s.name)}">+</button>
+        </div>
       </div>`:""}
     </section>`;
   }
