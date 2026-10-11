@@ -365,3 +365,170 @@ h1{font-size:calc(34px * var(--font-scale));line-height:1;margin:0;letter-spacin
   .storeListAdd{margin:7px;padding:7px 3px 3px}
   .storeListAddInput{font-size:16px}
 }
+
+/* v1.5.3: colour theme selector. Original theme is otherwise left untouched. */
+.themeControl{position:relative}
+.themeBtn{
+  width:46px;height:46px;display:grid;place-items:center;cursor:pointer;
+  border:0;border-radius:13px;background:#eeeae3;color:#292a26;
+}
+.themeBtn:hover{background:#e8e3db}
+.themeMenu{
+  display:none;position:absolute;right:0;top:53px;z-index:65;
+  width:174px;padding:6px;background:#fff;color:var(--ink);
+  border:1px solid var(--line);border-radius:14px;
+  box-shadow:0 14px 34px rgba(38,35,29,.14)
+}
+.themeMenu.open{display:block}
+.themeChoice{
+  width:100%;border:0;background:transparent;color:inherit;
+  padding:11px 9px;display:flex;align-items:center;gap:10px;
+  text-align:left;border-radius:9px;font-size:14px;cursor:pointer;
+}
+.themeChoice:hover{background:#f5f3ee}
+.themeChoice.active{background:var(--soft);color:var(--accent);font-weight:700}
+.themeChoice.active::after{content:"✓";margin-left:auto;font-weight:700}
+.themeDot{width:15px;height:15px;border-radius:50%;flex:0 0 auto;border:1px solid rgba(60,70,80,.18)}
+.originalDot{background:#536b46}
+.nordLightDot{background:#c96d55}
+.nordDarkDot{background:#a3be8c}
+.systemDot{background:linear-gradient(135deg,#f5f4ef 50%,#2e3440 50%)}
+.themeBtn:focus-visible,.themeChoice:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(max-width:620px){.themeBtn{width:44px;height:44px}.themeMenu{top:51px}}
+@media(max-width:380px){header{flex-wrap:wrap}.headerRight{margin-left:auto}}
+
+/* Bear Nord-inspired light and dark modes. Only scoped themed elements change. */
+:root[data-theme="nord-light"]{
+  color-scheme:light;
+  --bg:#f5f4ef;--card:#fbfbf8;--ink:#4a5563;--muted:#727e8a;
+  --line:#d8ddd4;--accent:#a85644;--soft:#dfe8d5;--danger:#a94e48;--blue:#a7b98d;
+  --shadow:0 8px 26px rgba(61,75,68,.08);
+  --nord-panel:#eef2e8;--nord-input:#fff;--nord-raised:#fbfbf8;
+  --nord-selected:#dfe8d5;--nord-button:#e8ece3;--nord-on-accent:#fff;
+  --nord-composer:rgba(245,244,239,.94);--nord-quiet:#8a949c;
+  --nord-ring:rgba(168,86,68,.14);--nord-halo:rgba(201,109,85,.10);
+  --nord-shadow:rgba(55,67,66,.12);--nord-danger-bg:#fff0ed;
+}
+:root[data-theme="nord-dark"]{
+  color-scheme:dark;
+  --bg:#2e3440;--card:#3b4252;--ink:#e5e9f0;--muted:#bac5d2;
+  --line:#566074;--accent:#a3be8c;--soft:#4b5568;--danger:#ee9da0;--blue:#a3be8c;
+  --shadow:0 8px 26px rgba(8,13,22,.22);
+  --nord-panel:#363e4d;--nord-input:#373f4e;--nord-raised:#434c5e;
+  --nord-selected:#4b5568;--nord-button:#465064;--nord-on-accent:#28313b;
+  --nord-composer:rgba(46,52,64,.94);--nord-quiet:#9aa5b5;
+  --nord-ring:rgba(163,190,140,.22);--nord-halo:rgba(163,190,140,.12);
+  --nord-shadow:rgba(9,13,21,.32);--nord-danger-bg:#553f49;
+}
+:root[data-theme^="nord"] .composer{background:var(--nord-composer)}
+:root[data-theme^="nord"] .card{box-shadow:0 3px 16px var(--nord-shadow)}
+:root[data-theme^="nord"] .section-title,
+:root[data-theme^="nord"] .storeListsTitle{color:var(--ink)}
+:root[data-theme^="nord"] .section-title span:last-child,
+:root[data-theme^="nord"] .storeListCount,
+:root[data-theme^="nord"] .boughtCount,
+:root[data-theme^="nord"] .appVersion{color:var(--nord-quiet)}
+:root[data-theme^="nord"] .count,
+:root[data-theme^="nord"] .statusBtn,
+:root[data-theme^="nord"] .chip,
+:root[data-theme^="nord"] .boughtToggle,
+:root[data-theme^="nord"] .storeListBar{
+  background:var(--nord-raised);border-color:var(--line);color:var(--ink)
+}
+:root[data-theme^="nord"] .storeListToggle{color:var(--ink)}
+:root[data-theme^="nord"] .fontSizeBtn,
+:root[data-theme^="nord"] .themeBtn{background:var(--nord-button);color:var(--ink)}
+:root[data-theme^="nord"] .fontSizeBtn:hover,
+:root[data-theme^="nord"] .themeBtn:hover{background:var(--nord-selected)}
+:root[data-theme^="nord"] .fontSizeMenu,
+:root[data-theme^="nord"] .themeMenu,
+:root[data-theme^="nord"] .suggestions{
+  background:var(--nord-raised);border-color:var(--line);
+  box-shadow:0 14px 34px var(--nord-shadow)
+}
+:root[data-theme^="nord"] .fontChoice:hover,
+:root[data-theme^="nord"] .themeChoice:hover,
+:root[data-theme^="nord"] .suggestion:hover,
+:root[data-theme^="nord"] .suggestion.active{background:var(--nord-selected)}
+:root[data-theme^="nord"] .suggestion,
+:root[data-theme^="nord"] .actions select,
+:root[data-theme^="nord"] .itemInput,
+:root[data-theme^="nord"] .storeListAddInput,
+:root[data-theme^="nord"] .inlineEditInput,
+:root[data-theme^="nord"] .sheet input{
+  background:var(--nord-input);color:var(--ink);border-color:var(--line)
+}
+:root[data-theme^="nord"] input::placeholder{color:var(--nord-quiet);opacity:1}
+:root[data-theme^="nord"] .itemInput:focus,
+:root[data-theme^="nord"] .storeListAddInput:focus,
+:root[data-theme^="nord"] .inlineEditInput:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px var(--nord-ring),var(--shadow)
+}
+:root[data-theme^="nord"] .row.starred{background:linear-gradient(90deg,var(--nord-halo),transparent 43%)}
+:root[data-theme^="nord"] .check{
+  background:var(--nord-input);border-color:var(--nord-quiet)
+}
+:root[data-theme^="nord"] .starBtn,
+:root[data-theme^="nord"] .menuBtn,
+:root[data-theme^="nord"] .storeListMenuBtn,
+:root[data-theme^="nord"] .archiveChevron,
+:root[data-theme^="nord"] .sectionGrip,
+:root[data-theme^="nord"] .storeListGrip,
+:root[data-theme^="nord"] .emptyIcon{color:var(--nord-quiet)}
+:root[data-theme^="nord"] .starBtn:hover,
+:root[data-theme^="nord"] .menuBtn:hover,
+:root[data-theme^="nord"] .storeListMenuBtn:hover,
+:root[data-theme^="nord"] .editBtn:hover{background:var(--nord-selected)}
+:root[data-theme^="nord"] .starBtn.active{color:var(--accent)}
+:root[data-theme^="nord"] .boughtToggle:hover{background:var(--nord-selected)}
+:root[data-theme^="nord"] .boughtDeleteBtn{color:var(--danger)}
+:root[data-theme^="nord"] .boughtDeleteBtn:hover{background:var(--nord-danger-bg)}
+:root[data-theme^="nord"] .sheet{background:var(--nord-panel)}
+:root[data-theme^="nord"] .overlay{background:rgba(14,19,28,.57)}
+:root[data-theme^="nord"] .secondary,
+:root[data-theme^="nord"] .inlineEditCancel,
+:root[data-theme^="nord"] .householdChoice,
+:root[data-theme^="nord"] .renameStoreListBtn,
+:root[data-theme^="nord"] .returnMainBtn{
+  background:var(--nord-raised);border-color:var(--line);color:var(--ink)
+}
+:root[data-theme^="nord"] .householdChoice:hover{background:var(--nord-selected)}
+:root[data-theme^="nord"] .primary,
+:root[data-theme^="nord"] .inlineEditSave,
+:root[data-theme^="nord"] .boughtRestore,
+:root[data-theme^="nord"] .addBtn,
+:root[data-theme^="nord"] .storeListAddBtn{
+  background:var(--accent);color:var(--nord-on-accent);border-color:var(--accent)
+}
+:root[data-theme^="nord"] .boughtRestore:after{color:var(--nord-on-accent)}
+:root[data-theme^="nord"] .deleteBtn,
+:root[data-theme^="nord"] .deleteStoreListBtn{
+  border-color:var(--danger);background:var(--nord-danger-bg);color:var(--danger)
+}
+:root[data-theme^="nord"] .dangerPrimary{color:var(--nord-on-accent)}
+:root[data-theme="nord-light"] .dangerPrimary{background:#a94e48;color:#fff}
+:root[data-theme="nord-dark"] .dangerPrimary{background:#bf616a;color:#fff}
+:root[data-theme^="nord"] .code{background:var(--nord-raised);border-color:var(--line)}
+:root[data-theme^="nord"] .divider,
+:root[data-theme^="nord"] .storeListEmpty{color:var(--nord-quiet)}
+:root[data-theme^="nord"] .setupNotice{
+  background:var(--nord-selected);border-color:var(--line);color:var(--ink)
+}
+:root[data-theme^="nord"] .newStoreListBtn{
+  background:var(--nord-selected);border-color:var(--line);color:var(--accent)
+}
+:root[data-theme^="nord"] .newStoreListBtn:hover{background:var(--nord-button)}
+:root[data-theme^="nord"] .row.drop-before::before,
+:root[data-theme^="nord"] .row.drop-after::after,
+:root[data-theme^="nord"] .section-drop-before::before,
+:root[data-theme^="nord"] .section-drop-after::after,
+:root[data-theme^="nord"] .store-list-drop-before::before,
+:root[data-theme^="nord"] .store-list-drop-after::after{
+  background:var(--accent);box-shadow:none
+}
+:root[data-theme^="nord"] .themeChoice.active,
+:root[data-theme^="nord"] .fontChoice.active{
+  background:var(--nord-selected);color:var(--accent)
+}
+:root[data-theme="nord-dark"]{scrollbar-color:#616d80 #2e3440}
