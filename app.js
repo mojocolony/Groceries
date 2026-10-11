@@ -69,16 +69,11 @@ function learnedItem(raw){
   return customCatalog.find(x=>x.name.toLowerCase()===q) || null;
 }
 function inferSection(raw){
-  // Household learning wins over the built-in catalogue.
+  // Household learning always wins. Static fallback comes from the same
+  // catalogue classifier used by Alexa, so web and voice stay consistent.
   const learned=learnedItem(raw);
   if(learned) return learned.section;
-  const known=resolveBuiltIn(raw);
-  if(known) return known.section;
-  const q=norm(raw).toLowerCase();
-  for(const rule of DATA.rules){
-    if(rule.keywords.some(k=>q.includes(k))) return rule.section;
-  }
-  return "Other";
+  return DATA.inferSection(raw);
 }
 function displayName(raw){
   const learned=learnedItem(raw);
