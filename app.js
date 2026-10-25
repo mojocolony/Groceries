@@ -1041,6 +1041,10 @@ function setupSortables(){
   if(sectionHost){
     sectionSortable=new Sortable(sectionHost,{
       animation:150,
+      // Distinguish a deliberate touch-and-hold from a vertical scroll.
+      delay:250,
+      delayOnTouchOnly:true,
+      touchStartThreshold:6,
       draggable:".section",
       handle:".section-title",
       ghostClass:"section-ghost",
